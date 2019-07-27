@@ -4,16 +4,34 @@ var bodyParser = require("body-parser")
 var labeling = require("./routes/labeling")
 var account = require("./routes/account")
 var label = require("./routes/label")
+var user = require("./routes/user")
 var test = require("./routes/test-routes")
 var cors = require("cors")
 var port = 3000
-
 
 const accountModel = require("./model/account-model")
 const labelModel = require("./model/label-model")
 const userModel = require("./model/user-model")
 const labelingModel = require("./model/labeling-model")
 
+const jwt = require("jwt-simple");
+const passport = require("passport");
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
+
+const SECRET = "MY_SECRET_KEY";
+
+const jwtOptions = {
+  jwtFromRequest: ExtractJwt.fromHeader("authorization"),
+  secretOrKey: SECRET
+};
+//  payload.sub ????
+const jwtAuth = new JwtStrategy(jwtOptions, (payload, done) => {
+  if (payload.sub === "hijklmnop") done(null, true);
+  else done(null, false);
+});
+passport.use(jwtAuth);
+const requireJWTAuth = passport.authenticate("jwt",{session:false});
 // app.get('/', (req, res) => res.send('Hello World!'))
 app.use(cors())
 app.use(bodyParser.json())
@@ -29,7 +47,8 @@ labelingModel.belongsTo(userModel, {foreignKey: 'label_by_user_id'})
 // labelingModel.belongsTo(accountModel, {foreignKey: 'account_id'})
 // test route
 app.use('/try',test)
-app.use("/api", [account, label, labeling])
+app.use('/user',user)
+app.use("/api",requireJWTAuth ,[account, label, labeling])
 app.post('/', function (req, res) {
     res.send('Got a POST request')
   })
