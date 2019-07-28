@@ -25,7 +25,8 @@ router.post("/login",(req, res) => {
             return res.status(404).send("wrong password")
         }
         const payload = {
-            sub: req.body.username,
+            username : req.body.username,
+            role : user.role,
             iat: new Date().getTime()//มาจากคำว่า issued at time (สร้างเมื่อ)
         };
         const SECRET = "MY_SECRET_KEY"; //ในการใช้งานจริง คีย์นี้ให้เก็บเป็นความลับ

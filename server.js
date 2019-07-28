@@ -27,8 +27,17 @@ const jwtOptions = {
 };
 //  payload.sub ????
 const jwtAuth = new JwtStrategy(jwtOptions, (payload, done) => {
-  if (payload.sub === "hijklmnop") done(null, true);
-  else done(null, false);
+  userModel.findOne({
+    where:{
+      username : payload.username
+    }
+  })
+  .then(user => {
+    return done(null, user)
+  })
+  .catch(err => {
+    return done(err, false)
+  })
 });
 passport.use(jwtAuth);
 const requireJWTAuth = passport.authenticate("jwt",{session:false});
