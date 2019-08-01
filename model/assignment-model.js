@@ -1,42 +1,35 @@
 const Sequelize = require("sequelize")
+require('sequelize-hierarchy')(Sequelize);
 const db = require("../database/db.js")
 
+
 module.exports = db.sequelize.define(
-    "labelings",
+    "assignments",
     {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true
         },
-        account_id: {
-            type: Sequelize.STRING,
-            references: {
-                model: "accounts",
-                key: "id"
-            }
-        },
-        assignment_id: {
-            type: Sequelize.INTEGER,
-            references: {
-                model: "assignments",
-                key: "id"
-            }
-        },
-        label_at: {
-            type: Sequelize.STRING,
-        },
-        status: {
-            type: Sequelize.STRING
-        },
-        labeled: {
+        category_id: {
             type: Sequelize.INTEGER,
             references: {
                 model: "labels",
                 key: "id"
             }
-        }
-    },
-    {
-        timestamps: false
+        },
+        assign_by: {
+            type: Sequelize.INTEGER,
+            references: {
+                model: "users",
+                key: "id"
+            }
+        },
+        assign_to: {
+            type: Sequelize.INTEGER,
+            references: {
+                model: "users",
+                key: "id"
+            }
+        },
     }
 )

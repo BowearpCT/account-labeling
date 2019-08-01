@@ -31,6 +31,7 @@
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "sequelize": "^5.10.1",
+    "sequelize-hierarchy": "^2.0.4",
     "sequelize-to-json": "^0.10.3",
     "supertest": "^4.0.2",
     "vue": "^2.6.10"

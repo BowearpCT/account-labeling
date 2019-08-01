@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize")
-const accountModel = require("../model/account-model")
+require('sequelize-hierarchy')(Sequelize);
 const sequelize = new Sequelize("miniProject", "root", "password" ,{
     host: "localhost",
     dialect: "mysql",

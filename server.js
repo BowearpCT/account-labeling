@@ -3,9 +3,12 @@ var app = express()
 var bodyParser = require("body-parser")
 var labeling = require("./routes/labeling")
 var account = require("./routes/account")
-var label = require("./routes/label")
+// var label = require("./routes/label")
 var user = require("./routes/user")
 var test = require("./routes/test-routes")
+var hierarchy = require("./routes/hierachy_label")
+// var hierarchyModel = require("./model/label-model")
+
 var cors = require("cors")
 var port = 3000
 
@@ -45,19 +48,26 @@ const requireJWTAuth = passport.authenticate("jwt",{session:false});
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
-app.use("/api", account)
+// app.use("/api", account)
+app.use("/h",hierarchy)
 // set associate
 accountModel.hasMany(labelingModel, {foreignKey: 'account_id'})
 labelingModel.belongsTo(accountModel, {foreignKey: 'account_id'})
-labelModel.hasMany(labelingModel,{foreignKey: 'label_id'})
-labelingModel.belongsTo(labelModel, {foreignKey: 'label_id'})
+labelModel.hasMany(labelingModel,{foreignKey: 'labeled'})
+labelingModel.belongsTo(labelModel, {foreignKey: 'labeled'})
 userModel.hasMany(labelingModel,{foreignKey: 'label_by_user_id'})
 labelingModel.belongsTo(userModel, {foreignKey: 'label_by_user_id'})
+
+labelModel.belongsTo(labelModel, { foreignKey: 'parentId'})
+labelModel.hasMany(labelModel,{foreignKey: 'parentId'})
+
+
+
 // labelingModel.belongsTo(accountModel, {foreignKey: 'account_id'})
 // test route
 app.use('/try',test)
 app.use('/user',user)
-app.use("/api",requireJWTAuth ,[account, label, labeling])
+app.use("/api",requireJWTAuth ,[account, labeling])
 app.post('/', function (req, res) {
     res.send('Got a POST request')
   })

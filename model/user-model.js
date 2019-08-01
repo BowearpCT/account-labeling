@@ -4,7 +4,7 @@ const db = require("../database/db.js")
 module.exports = db.sequelize.define(
     "users",
     {
-        id_user: {
+        id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
         },
@@ -18,6 +18,9 @@ module.exports = db.sequelize.define(
             type: Sequelize.STRING
         },
         phone_number: {
+            type: Sequelize.STRING
+        },
+        role: {
             type: Sequelize.STRING
         }
         

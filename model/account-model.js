@@ -5,7 +5,7 @@ const db = require("../database/db.js")
 module.exports = db.sequelize.define(
     "accounts",
     {
-        id_account:{
+        id:{
             type: Sequelize.STRING,
             primaryKey: true,
         },

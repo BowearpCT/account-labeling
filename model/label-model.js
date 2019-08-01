@@ -1,19 +1,22 @@
 const Sequelize = require("sequelize")
+require('sequelize-hierarchy')(Sequelize);
 const db = require("../database/db.js")
+
 
 module.exports = db.sequelize.define(
     "labels",
     {
-        id_label: {
+        id: {
             type: Sequelize.INTEGER,
-            primaryKey: true,
+            primaryKey: true
         },
-        th_label_name: {
+        name: {
             type: Sequelize.STRING
         },
-        en_label_name: {
-            type: Sequelize.STRING
-        }  
+        parentId: {
+            type: Sequelize.INTEGER,
+            hierarchy: true
+        },
     },
     {
         timestamps: false
