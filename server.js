@@ -16,6 +16,7 @@ const accountModel = require("./model/account-model")
 const labelModel = require("./model/label-model")
 const userModel = require("./model/user-model")
 const labelingModel = require("./model/labeling-model")
+const assignmentModel = require("./model/assignment-model")
 
 const jwt = require("jwt-simple");
 const passport = require("passport");
@@ -51,15 +52,25 @@ app.use(bodyParser.urlencoded({extended: false}))
 // app.use("/api", account)
 app.use("/h",hierarchy)
 // set associate
-accountModel.hasMany(labelingModel, {foreignKey: 'account_id'})
-labelingModel.belongsTo(accountModel, {foreignKey: 'account_id'})
-labelModel.hasMany(labelingModel,{foreignKey: 'labeled'})
-labelingModel.belongsTo(labelModel, {foreignKey: 'labeled'})
-userModel.hasMany(labelingModel,{foreignKey: 'label_by_user_id'})
-labelingModel.belongsTo(userModel, {foreignKey: 'label_by_user_id'})
+accountModel.hasMany(labelingModel, {foreignKey: 'account_id'});
 
-labelModel.belongsTo(labelModel, { foreignKey: 'parentId'})
-labelModel.hasMany(labelModel,{foreignKey: 'parentId'})
+labelingModel.belongsTo(accountModel, {foreignKey: 'account_id'});
+labelingModel.belongsTo(assignmentModel, {foreignKey: 'assignment_id'});
+labelingModel.belongsTo(labelModel, {foreignKey: 'labeled'});
+
+labelModel.hasMany(labelingModel,{foreignKey: 'labeled'});
+labelModel.hasMany(labelModel,{foreignKey: 'parentId'});
+labelModel.belongsTo(labelModel, { foreignKey: 'parentId'});
+labelModel.hasMany(assignmentModel,{foreignKey: 'category_id'});
+
+assignmentModel.hasMany(labelingModel, {foreignKey: 'assignment_id'});
+assignmentModel.belongsTo(userModel, {foreignKey: 'assign_to'});
+assignmentModel.belongsTo(userModel, {foreignKey: 'assign_by'});
+assignmentModel.belongsTo(labelModel, {foreignKey: 'category_id'})
+
+userModel.hasMany(assignmentModel,{foreignKey: 'assign_to'});
+userModel.hasMany(assignmentModel,{foreignKey: 'assign_by'});
+
 
 
 
