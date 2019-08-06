@@ -10,12 +10,7 @@
 </template>
 <script>
 export default {
-  name: "NavBar",
-  methods: {
-    myFunc: function() {
-      alert("hehehehehehehe!");
-    }
-  }
+  name: "NavBar"
 };
 </script>
 

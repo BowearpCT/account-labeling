@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <b-alert v-if="alert.message" :variant="alert.type" show>{{
+      alert.message
+    }}</b-alert>
     <!--<div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
@@ -7,6 +10,15 @@
     <router-view />
   </div>
 </template>
+<script>
+export default {
+  computed: {
+    alert: function() {
+      return this.$store.state.alert;
+    }
+  }
+};
+</script>
 
 <style>
 #app {

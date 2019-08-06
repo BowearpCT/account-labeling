@@ -1,8 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
-import Login from "./views/Login.vue"
-
+import Login from "./views/Login.vue";
+import auth from "./auth/admin";
 Vue.use(Router);
 
 export default new Router({
@@ -10,16 +10,15 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/",
+      path: "/admin",
       name: "home",
-      component: Home
+      component: Home,
+      beforeEnter: auth
     },
     {
-      path: "/about",
+      path: "/user",
       name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
+      beforeEnter: auth,
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/About.vue")
     },

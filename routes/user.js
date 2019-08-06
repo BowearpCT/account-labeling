@@ -47,10 +47,10 @@ router.post("/login", async(req, res) => {
             raw: true
         })
         if (!user){
-            return res.status(404).send("wrong username");
+            return res.status(401).send("wrong username");
         }
         if (req.body.password != user.password){
-            return res.status(404).send("wrong password");
+            return res.status(401).send("wrong password");
         }
         const payload = {
             username : req.body.username,

@@ -71,14 +71,11 @@ assignmentModel.belongsTo(labelModel, {foreignKey: 'category_id'})
 userModel.hasMany(assignmentModel,{foreignKey: 'assign_to'});
 userModel.hasMany(assignmentModel,{foreignKey: 'assign_by'});
 
-
-
-
 // labelingModel.belongsTo(accountModel, {foreignKey: 'account_id'})
 // test route
 app.use('/try',test)
 app.use('/user',user)
-app.use("/api",requireJWTAuth ,[account, labeling])
+app.use("/api",requireJWTAuth ,[account, hierarchy, labeling])
 app.post('/', function (req, res) {
     res.send('Got a POST request')
   })
