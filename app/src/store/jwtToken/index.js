@@ -14,6 +14,9 @@ export default {
   mutations: {
     setToken: function(state, payload) {
       state.jwtToken = payload;
+    },
+    removeToken: function(state) {
+      state.jwtToken = null;
     }
   },
   actions: {
@@ -27,11 +30,13 @@ export default {
         var user = VueJwtDecode.decode(result.data);
         commit("user", user);
         commit("success", "login success! ");
-        // this.$store.dispatch("jwtDecode", result.data);
-        if (result.data) {
-          return router.push("/about");
+        if (user) {
+          if (user.role == "user") {
+            return router.push("/user");
+          } else {
+            return router.push("/admin");
+          }
         }
-        // this.$route.push("/");
       } catch (error) {
         commit("error", "username or password wrong!");
       } finally {
@@ -39,6 +44,10 @@ export default {
           commit("clear");
         }, 5000);
       }
+    },
+    signOut: async function({ commit }) {
+      commit("removeToken");
+      commit("clear");
     }
   }
 };

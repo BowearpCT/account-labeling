@@ -1,4 +1,3 @@
-const axios = require("axios");
 import VueJwtDecode from "vue-jwt-decode";
 export default {
   state: {
@@ -12,6 +11,9 @@ export default {
   mutations: {
     user(state, payload) {
       state.user = payload;
+    },
+    clear(state) {
+      state.user = null;
     }
   },
   actions: {
@@ -22,13 +24,6 @@ export default {
       } catch (error) {
         return error;
       }
-    },
-    async signIn({ commit }, payload) {
-      var { data } = await axios.post("http://localhost:3000/user/login", {
-        username: payload.username,
-        password: payload.password
-      });
-      commit("setToken", data);
     }
   }
 };

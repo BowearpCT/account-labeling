@@ -3,6 +3,8 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Login from "./views/Login.vue";
 import auth from "./auth/admin";
+import authUser from "./auth/user";
+
 Vue.use(Router);
 
 export default new Router({
@@ -18,7 +20,7 @@ export default new Router({
     {
       path: "/user",
       name: "about",
-      beforeEnter: auth,
+      beforeEnter: authUser,
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/About.vue")
     },
