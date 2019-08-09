@@ -1,23 +1,17 @@
 const Sequelize = require("sequelize")
 require('sequelize-hierarchy')(Sequelize);
 const db = require("../database/db.js")
+const roleModel = require("./role-model")
 
 module.exports = db.sequelize.define(
-  "labels",
+  "channels",
   {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true
     },
-    name: {
-      type: Sequelize.STRING
+    channel_name: {
+      type: Sequelize.STRING,
     },
-    parent_id: {
-      type: Sequelize.INTEGER,
-      hierarchy: true
-    }
-  },
-  {
-    timestamps: false
   }
 )

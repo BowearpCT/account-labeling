@@ -1,26 +1,32 @@
 const Sequelize = require("sequelize")
 const db = require("../database/db.js")
 
-
 module.exports = db.sequelize.define(
-    "accounts",
-    {
-        id:{
-            type: Sequelize.STRING,
-            primaryKey: true,
-        },
-        page_name:{
-            type: Sequelize.STRING
-        },
-        channel:{
-            type: Sequelize.STRING
-        },
-        country:{
-            type: Sequelize.STRING
-        }  
+  "accounts",
+  {
+    id: {
+      type: Sequelize.STRING,
+      primaryKey: true,
     },
-    {
-        timestamps: false
+    account_name: {
+      type: Sequelize.STRING
+    },
+    channel_id: {
+      type: Sequelize.STRING,
+      references: {
+        model: "channels",
+        key: "id"
+      }
+    },
+    country_id: {
+      type: Sequelize.STRING,
+      references: {
+        model: "countries",
+        key: "id"
+      }
     }
+  },
+  {
+    timestamps: false
+  }
 )
-
