@@ -1,7 +1,7 @@
 var express = require('express')
 var app = express()
 var bodyParser = require("body-parser")
-var labeling = require("./routes/labeling")
+var labelling = require("./routes/labelling")
 var account = require("./routes/account")
 var user = require("./routes/user")
 var test = require("./routes/test-routes")
@@ -17,10 +17,7 @@ const assignmentModel = require("./model/assignment-model");
 const roleModel = require("./model/role-model");
 const countryModel = require("./model/country-model");
 const channelModel = require("./model/channel-model");
-const labelingModel = require("./model/labeling-model");
-
-
-const associate = require("./associate")
+const labellingModel = require("./model/labelling-model");
 
 const jwt = require("jwt-simple");
 const passport = require("passport");
@@ -52,30 +49,31 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-accountModel.hasMany(labelingModel, { foreignKey: 'account_id' });
+accountModel.hasMany(labellingModel, { foreignKey: 'account_id' });
 accountModel.belongsTo(channelModel, { foreignKey: 'channel_id' });
 accountModel.belongsTo(countryModel, { foreignKey: 'country_id' });
 
 channelModel.hasMany(accountModel, { foreignKey: 'account_id' });
+channelModel.hasMany(assignmentModel, { foreignKey: 'channel_id' })
 
 countryModel.hasMany(accountModel, { foreignKey: 'country_id' });
 countryModel.hasMany(userModel, { foreignKey: 'from_country_id' });
 
 roleModel.hasMany(userModel, { foreignKey: 'role_id' });
 
-labelingModel.belongsTo(accountModel, { foreignKey: 'account_id' });
-labelingModel.belongsTo(assignmentModel, { foreignKey: 'assignment_id' });
-labelingModel.belongsTo(labelModel, { foreignKey: 'label_id' });
-
+labellingModel.belongsTo(accountModel, { foreignKey: 'account_id' });
+labellingModel.belongsTo(assignmentModel, { foreignKey: 'assignment_id' });
+labellingModel.belongsTo(labelModel, { foreignKey: 'label_id' });
 
 labelModel.hasMany(labelModel, { foreignKey: 'parent_id' });
 labelModel.belongsTo(labelModel, { foreignKey: 'parent_id' });
 labelModel.hasMany(assignmentModel, { foreignKey: 'category_id' });
 
-assignmentModel.hasMany(labelingModel, { foreignKey: 'assignment_id' });
+assignmentModel.hasMany(labellingModel, { foreignKey: 'assignment_id' });
 assignmentModel.belongsTo(userModel, { foreignKey: 'assign_to' });
 assignmentModel.belongsTo(userModel, { foreignKey: 'assign_by' });
 assignmentModel.belongsTo(labelModel, { foreignKey: 'category_id' });
+assignmentModel.belongsTo(channelModel, { foreignKey: 'channel_id' });
 
 userModel.hasMany(assignmentModel, { foreignKey: 'assign_to' });
 userModel.hasMany(assignmentModel, { foreignKey: 'assign_by' });
@@ -85,6 +83,6 @@ userModel.belongsTo(roleModel, { foreignKey: 'role_id' });
 
 app.use('/test', test);
 app.use('/user', user);
-app.use("/api", requireJWTAuth, [account, hierarchy, labeling]);
+app.use("/api", requireJWTAuth, [account, hierarchy, labelling]);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

@@ -12,7 +12,7 @@ export default {
     user(state, payload) {
       state.user = payload;
     },
-    clear(state) {
+    clearUser(state) {
       state.user = null;
     }
   },

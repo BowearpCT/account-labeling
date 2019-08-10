@@ -1,26 +1,27 @@
 import router from "../../router";
 import VueJwtDecode from "vue-jwt-decode";
-
+// const fetcher = require("../../helper/fetcher");
+// import fetcherd from "../../helper/fetcher";
 const axios = require("axios");
 export default {
   state: {
     jwtToken: null
   },
   getters: {
-    jwtToken: function(state) {
+    jwtToken: function (state) {
       return state.jwtToken;
     }
   },
   mutations: {
-    setToken: function(state, payload) {
+    setToken: function (state, payload) {
       state.jwtToken = payload;
     },
-    removeToken: function(state) {
+    removeToken: function (state) {
       state.jwtToken = null;
     }
   },
   actions: {
-    signIn: async function({ commit }, payload) {
+    signIn: async function ({ commit }, payload) {
       try {
         var result = await axios.post("http://localhost:3000/user/login", {
           username: payload.username,
@@ -31,10 +32,10 @@ export default {
         commit("user", user);
         commit("success", "login success! ");
         if (user) {
-          if (user.role == "user") {
+          if (user.role == "2") {
             return router.push("/user");
           } else {
-            return router.push("/admin");
+            return router.push("/assign");
           }
         }
       } catch (error) {
@@ -45,8 +46,9 @@ export default {
         }, 5000);
       }
     },
-    signOut: async function({ commit }) {
+    signOut: async function ({ commit }) {
       commit("removeToken");
+      commit("clearUser");
       commit("clear");
     }
   }
