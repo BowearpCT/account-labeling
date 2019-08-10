@@ -9,7 +9,7 @@ const assignmentModel = require("../model/assignment-model");
 const roleModel = require("../model/role-model");
 const countryModel = require("../model/country-model");
 const channelModel = require("../model/channel-model");
-const labelingModel = require("../model/labeling-model");
+const labelingModel = require("../model/labelling-model");
 const Op = Sequelize.Op
 
 router.get("/accounts", async (req, res) => {

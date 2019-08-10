@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 const accountModel = require("../model/account-model")
-const labelingModel = require("../model/labeling-model")
+const labelingModel = require("../model/labelling-model")
 
 // account is unlabel
 router.get("/account", (req, res) => {

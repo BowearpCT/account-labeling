@@ -4,7 +4,7 @@ const accountModel = require("../model/account-model")
 const Serializer = require('sequelize-to-json')
 const labelModel = require("../model/label-model")
 const userModel = require("../model/user-model")
-const labelingModel = require("../model/labeling-model")
+const labelingModel = require("../model/labelling-model")
 const jwt = require("jwt-simple");
 const passport = require("passport");
 const JwtStrategy = require("passport-jwt").Strategy;
@@ -31,37 +31,37 @@ const ExtractJwt = require("passport-jwt").ExtractJwt;
 //         };
 //         const SECRET = "MY_SECRET_KEY"; //ในการใช้งานจริง คีย์นี้ให้เก็บเป็นความลับ
 //         res.send(jwt.encode(payload, SECRET));
-        
+
 //     })
 //     .catch(err => {         
 //         res.send("error :"+ err)
 //     })
 // })
 
-router.post("/login", async(req, res) => {
-    try {
-        const user = await userModel.findOne({
-            where: {
-                username : req.body.username
-            },
-            raw: true
-        })
-        if (!user){
-            return res.status(401).send("wrong username");
-        }
-        if (req.body.password != user.password){
-            return res.status(401).send("wrong password");
-        }
-        const payload = {
-            username : req.body.username,
-            role : user.role,
-            iat: new Date().getTime()//มาจากคำว่า issued at time (สร้างเมื่อ)
-        };
-        const SECRET = "MY_SECRET_KEY"; //ในการใช้งานจริง คีย์นี้ให้เก็บเป็นความลับ
-        res.send(jwt.encode(payload, SECRET));
-    } catch (error) {
-        res.send(error)
+router.post("/login", async (req, res) => {
+  try {
+    const user = await userModel.findOne({
+      where: {
+        username: req.body.username
+      },
+      raw: true
+    })
+    if (!user) {
+      return res.status(401).send("wrong username");
     }
+    if (req.body.password != user.password) {
+      return res.status(401).send("wrong password");
+    }
+    const payload = {
+      username: req.body.username,
+      role: user.role,
+      iat: new Date().getTime()//มาจากคำว่า issued at time (สร้างเมื่อ)
+    };
+    const SECRET = "MY_SECRET_KEY"; //ในการใช้งานจริง คีย์นี้ให้เก็บเป็นความลับ
+    res.send(jwt.encode(payload, SECRET));
+  } catch (error) {
+    res.send(error)
+  }
 })
 
 module.exports = router
