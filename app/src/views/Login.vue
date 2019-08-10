@@ -12,14 +12,11 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import Nav from "@/components/Nav.vue";
 import FormLogin from "@/components/FormLogin.vue";
 export default {
-  name: "home",
+  name: "login",
   components: {
-    FormLogin,
-    Nav
+    FormLogin
   }
 };
 </script>
