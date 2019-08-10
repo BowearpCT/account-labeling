@@ -20,7 +20,7 @@ module.exports = db.sequelize.define(
     phone_number: {
       type: Sequelize.STRING
     },
-    role: {
+    role_id: {
       type: Sequelize.INTEGER,
       references: {
         model: "roles",
