@@ -54,7 +54,7 @@ router.post("/login", async (req, res) => {
     }
     const payload = {
       username: req.body.username,
-      role: user.role,
+      role: user.role_id,
       iat: new Date().getTime()//มาจากคำว่า issued at time (สร้างเมื่อ)
     };
     const SECRET = "MY_SECRET_KEY"; //ในการใช้งานจริง คีย์นี้ให้เก็บเป็นความลับ
