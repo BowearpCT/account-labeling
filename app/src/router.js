@@ -14,20 +14,17 @@ export default new Router({
   routes: [
     {
       path: "/assign",
-      name: "assign",
       component: Assign,
       beforeEnter: auth
     },
     {
       path: "/user",
-      name: "about",
       beforeEnter: authUser,
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/About.vue")
     },
     {
       path: "/login",
-      name: "login",
       component: Login
     }
   ]

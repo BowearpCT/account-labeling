@@ -33,9 +33,11 @@ export default {
           } else {
             return router.push("/assign");
           }
+        } else {
+          commit("error", "username or password wrong!");
         }
       } catch (error) {
-        commit("error", "username or password wrong!");
+        throw error;
       } finally {
         setTimeout(() => {
           commit("clear");

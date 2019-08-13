@@ -3,6 +3,7 @@ var app = express()
 var bodyParser = require("body-parser")
 var labelling = require("./routes/labelling")
 var account = require("./routes/account")
+var login = require("./routes/login")
 var user = require("./routes/user")
 var test = require("./routes/test-routes")
 var hierarchy = require("./routes/hierachy_label")
@@ -82,7 +83,7 @@ userModel.belongsTo(roleModel, { foreignKey: 'role_id' });
 
 
 app.use('/test', test);
-app.use('/user', user);
-app.use("/api", requireJWTAuth, [account, hierarchy, labelling]);
+app.use('/user', login);
+app.use("/api", requireJWTAuth, [account, hierarchy, labelling, user]);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

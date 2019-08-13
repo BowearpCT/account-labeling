@@ -1,67 +1,36 @@
-var express = require('express')
-var router = express.Router()
-const accountModel = require("../model/account-model")
-const Serializer = require('sequelize-to-json')
-const labelModel = require("../model/label-model")
-const userModel = require("../model/user-model")
-const labelingModel = require("../model/labelling-model")
-const jwt = require("jwt-simple");
-const passport = require("passport");
-const JwtStrategy = require("passport-jwt").Strategy;
-const ExtractJwt = require("passport-jwt").ExtractJwt;
-// all label
-// router.post("/login",(req, res) => {
-//     userModel.findOne({
-//         where:{
-//             "username" : req.body.username 
-//         },
-//         raw: true
-//     })
-//     .then(user => {
-//         if(!user){
-//             return res.status(404).send("wrong username")
-//         }
-//         if(req.body.password != user.password){
-//             return res.status(404).send("wrong password")
-//         }
-//         const payload = {
-//             username : req.body.username,
-//             role : user.role,
-//             iat: new Date().getTime()//มาจากคำว่า issued at time (สร้างเมื่อ)
-//         };
-//         const SECRET = "MY_SECRET_KEY"; //ในการใช้งานจริง คีย์นี้ให้เก็บเป็นความลับ
-//         res.send(jwt.encode(payload, SECRET));
+var express = require('express');
+var router = express.Router();
+const userModel = require("../model/user-model");
 
-//     })
-//     .catch(err => {         
-//         res.send("error :"+ err)
-//     })
-// })
 
-router.post("/login", async (req, res) => {
+router.get("/user", async (req, res) => {
   try {
-    const user = await userModel.findOne({
+    const users = await userModel.findAll({
       where: {
-        username: req.body.username
-      },
-      raw: true
-    })
-    if (!user) {
-      return res.status(401).send("wrong username");
-    }
-    if (req.body.password != user.password) {
-      return res.status(401).send("wrong password");
-    }
-    const payload = {
-      username: req.body.username,
-      role: user.role_id,
-      iat: new Date().getTime()//มาจากคำว่า issued at time (สร้างเมื่อ)
-    };
-    const SECRET = "MY_SECRET_KEY"; //ในการใช้งานจริง คีย์นี้ให้เก็บเป็นความลับ
-    res.send(jwt.encode(payload, SECRET));
+        role_id: 2
+      }
+    });
+    res.send(users);
   } catch (error) {
-    res.send(error)
+    res.send(error);
   }
 })
+
+// insert label and stamp time 
+// router.post("/labeling",(req, res) => {
+//     var labeling = labelingModel.build({
+//         account_id : req.body.account_id,
+//         label_id : req.body.label_id,
+//         label_by_user_id : req.body.label_by_user_id,
+//         label_at : moment().format("YYYY-MM-DD HH:mm:ss"),
+//         status : 1
+//     })
+//     labeling.save().then(() => {
+//         res.send("success ")
+//     })
+//     .catch(err =>{
+//         res.send("err :" +err)
+//     })
+// })
 
 module.exports = router
