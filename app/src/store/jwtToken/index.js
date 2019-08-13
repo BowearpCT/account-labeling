@@ -31,7 +31,7 @@ export default {
           if (user.role == "2") {
             return router.push("/user");
           } else {
-            return router.push("/assign");
+            return router.push("/dashboard");
           }
         } else {
           commit("error", "username or password wrong!");

@@ -12,7 +12,9 @@
           <b-form-group label="Assign to :"></b-form-group>
         </b-col>
         <b-col md="3">
-          <b-form-select id="input-username" v-model="selected" :options="options"></b-form-select>
+          <b-form-select id="input-username" v-model="userSelected">
+            <option v-for="user in users" :key="user.id">{{ user.name }}</option>
+          </b-form-select>
         </b-col>
       </b-row>
       <br />
@@ -45,7 +47,7 @@
           <b-form-group id="fieldset-horizontal" label="channel :" label-for="input-username"></b-form-group>
         </b-col>
         <b-col md="2">
-          <b-form-select v-model="channel" :options="options">
+          <b-form-select v-model="channel">
             <option :value="null" disabled>select</option>
             <option value="a">twitter</option>
             <option value="b">instagram</option>
@@ -82,21 +84,19 @@
 export default {
   data() {
     return {
-      // selected: [],
-      // options: [
-      //   { value: null, text: "Type of profile" },
-      //   { value: "a", text: "Interest" },
-      //   { value: "a", text: "Interest" },
-      //   { value: "a", text: "Interest" },
-      //   { value: "a", text: "Interest" }
-      // ],
+      userlist: null,
+      userSelected: null,
       numberOfAccout: "100",
       assignTo: "",
       channel: null,
       category: "first"
     };
   },
-  computed: {},
+  computed: {
+    users() {
+      return this.$store.getters.users;
+    }
+  },
   methods: {}
 };
 </script>
