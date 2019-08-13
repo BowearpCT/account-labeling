@@ -22,7 +22,7 @@ export default {
   actions: {
     signIn: async function ({ commit, dispatch }, payload) {
       try {
-        await dispatch("LoginFetcher", payload);
+        await dispatch("loginFetcher", payload);
         var token = this.getters.jwtToken;
         var user = await VueJwtDecode.decode(token);
         commit("user", user);
@@ -42,7 +42,7 @@ export default {
         }, 5000);
       }
     },
-    LoginFetcher: async ({ commit }, payload) => {
+    loginFetcher: async ({ commit }, payload) => {
       try {
         var result = await axios.post("http://localhost:3000/user/login", {
           username: payload.username,
