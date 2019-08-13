@@ -1,8 +1,7 @@
 import router from "../../router";
 import VueJwtDecode from "vue-jwt-decode";
-// const fetcher = require("../../helper/fetcher");
-// import fetcherd from "../../helper/fetcher";
 const axios = require("axios");
+
 export default {
   state: {
     jwtToken: null
@@ -21,14 +20,11 @@ export default {
     }
   },
   actions: {
-    signIn: async function ({ commit }, payload) {
+    signIn: async function ({ commit, dispatch }, payload) {
       try {
-        var result = await axios.post("http://localhost:3000/user/login", {
-          username: payload.username,
-          password: payload.password
-        });
-        commit("setToken", result.data);
-        var user = VueJwtDecode.decode(result.data);
+        await dispatch("LoginFetcher", payload);
+        var token = this.getters.jwtToken;
+        var user = await VueJwtDecode.decode(token);
         commit("user", user);
         commit("success", "login success! ");
         if (user) {
@@ -45,6 +41,19 @@ export default {
           commit("clear");
         }, 5000);
       }
+    },
+    LoginFetcher: async ({ commit }, payload) => {
+      try {
+        var result = await axios.post("http://localhost:3000/user/login", {
+          username: payload.username,
+          password: payload.password
+        });
+
+        commit("setToken", result.data);
+      } catch (error) {
+        throw error;
+      }
+      return result;
     },
     signOut: async function ({ commit }) {
       commit("removeToken");
