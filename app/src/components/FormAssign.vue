@@ -16,7 +16,7 @@
             <template slot="first">
               <option :value="null" disabled>-- Please select user --</option>
             </template>
-            <option v-for="user in users" :key="user.id">{{ user.name }}</option>
+            <option v-for="user in users" :value="user.id" :key="user.id">{{ user.name }}</option>
           </b-form-select>
         </b-col>
       </b-row>

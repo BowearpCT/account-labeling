@@ -37,12 +37,18 @@ module.exports = db.sequelize.define(
         key: "id"
       }
     },
+    created_at: {
+      type: Sequelize.DATE
+    },
     updated_at: {
       type: Sequelize.DATE,
     },
     total: {
       type: Sequelize.INTEGER
     }
+  },
+  {
+    timestamps: false
   }
 )
 
