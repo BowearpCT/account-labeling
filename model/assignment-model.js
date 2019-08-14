@@ -16,6 +16,13 @@ module.exports = db.sequelize.define(
         key: "id"
       }
     },
+    channel_id: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: "channels",
+        key: "id"
+      }
+    },
     assign_by: {
       type: Sequelize.INTEGER,
       references: {

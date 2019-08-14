@@ -56,7 +56,8 @@ accountModel.belongsTo(channelModel, { foreignKey: 'channel_id' });
 accountModel.belongsTo(countryModel, { foreignKey: 'country_id' });
 
 channelModel.hasMany(accountModel, { foreignKey: 'account_id' });
-channelModel.hasMany(assignmentModel, { foreignKey: 'channel_id' })
+channelModel.hasMany(assignmentModel, { foreignKey: 'channel' });
+
 
 countryModel.hasMany(accountModel, { foreignKey: 'country_id' });
 countryModel.hasMany(userModel, { foreignKey: 'from_country_id' });
@@ -72,6 +73,7 @@ labelModel.belongsTo(labelModel, { foreignKey: 'parent_id' });
 labelModel.hasMany(assignmentModel, { foreignKey: 'category_id' });
 
 assignmentModel.hasMany(labellingModel, { foreignKey: 'assignment_id' });
+assignmentModel.belongsTo(channelModel, { foreignKey: 'channel' });
 assignmentModel.belongsTo(userModel, { foreignKey: 'assign_to' });
 assignmentModel.belongsTo(userModel, { foreignKey: 'assign_by' });
 assignmentModel.belongsTo(labelModel, { foreignKey: 'category_id' });
