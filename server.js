@@ -5,11 +5,13 @@ var labelling = require("./routes/labelling")
 var account = require("./routes/account")
 var login = require("./routes/login")
 var user = require("./routes/user")
+const assignment = require("./routes/assignment")
+var label = require("./routes/label")
 var test = require("./routes/test-routes")
 var hierarchy = require("./routes/hierachy_label")
-
 var cors = require("cors")
 var port = 3000
+const { findUserByUsername } = require("./helper/query");
 
 const accountModel = require("./model/account-model");
 const labelModel = require("./model/label-model");
@@ -31,18 +33,17 @@ const jwtOptions = {
   secretOrKey: SECRET
 };
 //  payload.sub ????
-const jwtAuth = new JwtStrategy(jwtOptions, (payload, done) => {
-  userModel.findOne({
-    where: {
-      username: payload.username
+
+const jwtAuth = new JwtStrategy(jwtOptions, async (payload, done) => {
+  try {
+    var user = await findUserByUsername(payload.username);
+    if (user) {
+      return done(null, user);
     }
-  })
-    .then(user => {
-      return done(null, user)
-    })
-    .catch(err => {
-      return done(err, false)
-    })
+  } catch (error) {
+    return done(error, false);
+  }
+
 });
 passport.use(jwtAuth);
 const requireJWTAuth = passport.authenticate("jwt", { session: false });
@@ -84,6 +85,6 @@ userModel.belongsTo(roleModel, { foreignKey: 'role_id' });
 
 app.use('/test', test);
 app.use('/user', login);
-app.use("/api", requireJWTAuth, [account, hierarchy, labelling, user]);
+app.use("/api", requireJWTAuth, [label, account, hierarchy, labelling, user, assignment]);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

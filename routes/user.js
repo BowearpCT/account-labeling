@@ -1,15 +1,13 @@
 var express = require('express');
 var router = express.Router();
 const userModel = require("../model/user-model");
+const { findUserByRoleId } = require("../helper/query")
 
 
 router.get("/user", async (req, res) => {
+  const userRole = 2;
   try {
-    const users = await userModel.findAll({
-      where: {
-        role_id: 2
-      }
-    });
+    const users = await findUserByRoleId(userRole);
     res.send(users);
   } catch (error) {
     res.send(error);

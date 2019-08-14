@@ -1,16 +1,11 @@
 var express = require('express')
 var router = express.Router()
-const userModel = require("../model/user-model")
 const jwt = require("jwt-simple");
+const { findUserByUsername } = require("../helper/query")
 
 router.post("/login", async (req, res) => {
   try {
-    const user = await userModel.findOne({
-      where: {
-        username: req.body.username
-      },
-      raw: true
-    })
+    const user = await findUserByUsername(req.body.username);
     if (!user) {
       return res.status(401).send("wrong username");
     }
@@ -18,6 +13,7 @@ router.post("/login", async (req, res) => {
       return res.status(401).send("wrong password");
     }
     const payload = {
+      id: user.id,
       username: req.body.username,
       role: user.role_id,
       iat: new Date().getTime()
