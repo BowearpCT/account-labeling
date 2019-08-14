@@ -16,7 +16,7 @@ module.exports = db.sequelize.define(
         key: "id"
       }
     },
-    channel_id: {
+    id_channel: {
       type: Sequelize.INTEGER,
       references: {
         model: "channels",
