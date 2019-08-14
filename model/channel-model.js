@@ -12,5 +12,8 @@ module.exports = db.sequelize.define(
     channel_name: {
       type: Sequelize.STRING,
     },
+  },
+  {
+    timestamps: false
   }
 )
