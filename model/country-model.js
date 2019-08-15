@@ -3,7 +3,7 @@ require('sequelize-hierarchy')(Sequelize);
 const db = require("../database/db.js");
 
 module.exports = db.sequelize.define(
-  "channels",
+  "contries",
   {
     id: {
       type: Sequelize.INTEGER,
@@ -12,5 +12,8 @@ module.exports = db.sequelize.define(
     contry_name: {
       type: Sequelize.STRING,
     },
+  },
+  {
+    timestamps: false
   }
 )

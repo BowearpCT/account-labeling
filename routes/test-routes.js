@@ -12,6 +12,51 @@ const channelModel = require("../model/channel-model");
 const labelingModel = require("../model/labelling-model");
 const Op = Sequelize.Op
 
+
+router.get("/account/label", async (req, res) => {
+  try {
+    const accounts = await accountModel.findAll({
+      where: {
+        channel_id: 1,
+        [Op.or]: {
+          "$labelings.id$": null,
+          "$labelings.assignment.category_id$": {
+            [Op.ne]: 1
+          }
+        }
+      },
+      limit: 2,
+      include: [{
+        model: labelingModel,
+        include: [{
+          model: assignmentModel,
+        }],
+      }],
+      subQuery: false
+    });
+    const account = JSON.stringify(accounts)
+    console.log(account);
+    res.send(accounts)
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+
+router.get("/assignment", async (req, res) => {
+  try {
+    let assignments = await assignmentModel.findOne({
+      where: {
+        created_at: {
+          [Op.gte]: new Date("2019-08-15 08:51:59")
+        }
+      }
+    });
+    res.send(assignments);
+  } catch (error) {
+    res.send(error)
+  }
+})
 router.get("/accounts", async (req, res) => {
   try {
     let account = await accountModel.findAll({
