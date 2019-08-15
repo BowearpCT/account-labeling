@@ -1,20 +1,35 @@
 const express = require('express');
 const router = express.Router();
-const { createAssignment, findLabelByName, findChannelByName } = require("../helper/query");
+const { formatLabellingReservation } = require("../helper/formater");
+const {
+  createAssignment,
+  findLabelByName,
+  findChannelByName,
+  findAssignmentByTimeCreate,
+  findAccountsForLabel,
+  reserveLabelling
+} = require("../helper/query");
 
-// build assignmet 
 router.post("/assignment", async (req, res) => {
   let assignment = {};
-  assignment.admin = req.body.adminId;
-  assignment.user = req.body.userId;
-  assignment.total = req.body.total;
   try {
     const label = await findLabelByName(req.body.category);
     const channel = await findChannelByName(req.body.channel);
     assignment.channel_id = channel.id;
     assignment.category = label.id;
-    const result = await createAssignment(assignment);
-    res.send(result);
+    assignment.admin = req.body.adminId;
+    assignment.user = req.body.userId;
+    assignment.total = req.body.total;
+    const createdResult = await createAssignment(assignment);
+    const assignmentCreated = await findAssignmentByTimeCreate(createdResult.created_at);
+    const accountReservations = await findAccountsForLabel(
+      assignmentCreated.id_channel,
+      assignmentCreated.category_id,
+      assignmentCreated.total
+    );
+    const labellingReserve = formatLabellingReservation(accountReservations, assignmentCreated);
+    const reserve = reserveLabelling(labellingReserve);
+    res.send(accountReservations);
   } catch (error) {
     res.send(error);
   }
