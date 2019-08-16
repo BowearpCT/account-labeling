@@ -16,7 +16,7 @@
             <template slot="first">
               <option :value="null" disabled>-- Please select user --</option>
             </template>
-            <option v-for="person in users" :value="person.id" :key="person.id">{{ person.name }}</option>
+            <option v-for="person in users" :value="person" :key="person.id">{{ person.name }}</option>
           </b-form-select>
         </b-col>
       </b-row>
@@ -77,10 +77,20 @@
       <br />
       <b-row>
         <b-col md="12">
-          <b-button type="submit" @click="assignment" size="lg" variant="danger">submit</b-button>
+          <b-button type="submit" @click="showModal" size="lg" variant="danger">submit</b-button>
         </b-col>
       </b-row>
     </b-form>
+    <b-modal ref="my-modal" hide-footer title="your assignment details">
+      <div class="d-block container">
+        <h6>assign to : {{ userSelected ? userSelected.name : ""}}</h6>
+        <h6>category : {{ category }}</h6>
+        <h6>total : {{ numberOfAccout }}</h6>
+        <h6>channel : {{channel}}</h6>
+      </div>
+      <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Reject</b-button>
+      <b-button class="mt-2" variant="outline-info" block @click="assignment">Confirm</b-button>
+    </b-modal>
   </div>
 </template>
 
@@ -92,7 +102,8 @@ export default {
       userSelected: null,
       numberOfAccout: "100",
       channel: null,
-      category: null
+      category: null,
+      index: null
     };
   },
   computed: {
@@ -103,11 +114,20 @@ export default {
   methods: {
     assignment() {
       const assignment = {};
-      assignment.userId = this.userSelected;
+      assignment.userId = this.userSelected.id;
       assignment.category = this.category;
       assignment.channel = this.channel;
       assignment.total = this.numberOfAccout;
       this.$store.dispatch("assignment", assignment);
+    },
+    showModal() {
+      this.$refs["my-modal"].show();
+    },
+    hideModal() {
+      this.$refs["my-modal"].hide();
+    },
+    callIndex() {
+      return this.userSelected;
     }
   }
 };
