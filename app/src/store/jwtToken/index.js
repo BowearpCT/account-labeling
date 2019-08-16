@@ -50,7 +50,6 @@ export default {
           username: payload.username,
           password: payload.password
         });
-
         commit("setToken", result.data);
       } catch (error) {
         throw error;

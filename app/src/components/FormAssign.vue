@@ -16,7 +16,7 @@
             <template slot="first">
               <option :value="null" disabled>-- Please select user --</option>
             </template>
-            <option v-for="user in users" :value="user.id" :key="user.id">{{ user.name }}</option>
+            <option v-for="person in users" :value="person.id" :key="person.id">{{ person.name }}</option>
           </b-form-select>
         </b-col>
       </b-row>
@@ -77,7 +77,7 @@
       <br />
       <b-row>
         <b-col md="12">
-          <b-button type="submit" size="lg" variant="danger">submit</b-button>
+          <b-button type="submit" @click="assignment" size="lg" variant="danger">submit</b-button>
         </b-col>
       </b-row>
     </b-form>
@@ -100,6 +100,15 @@ export default {
       return this.$store.getters.users;
     }
   },
-  methods: {}
+  methods: {
+    assignment() {
+      const assignment = {};
+      assignment.userId = this.userSelected;
+      assignment.category = this.category;
+      assignment.channel = this.channel;
+      assignment.total = this.numberOfAccout;
+      this.$store.dispatch("assignment", assignment);
+    }
+  }
 };
 </script>
