@@ -6,7 +6,7 @@ export default (to, from, next) => {
     if (user.role == "2") {
       next();
     } else {
-      next("/admin");
+      next("/dashboard");
     }
   } else {
     next("/login");
