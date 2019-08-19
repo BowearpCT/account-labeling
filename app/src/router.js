@@ -6,6 +6,7 @@ import Login from "./views/Login.vue";
 import auth from "./auth/admin";
 import authUser from "./auth/user";
 import Assign from "./views/Assign.vue";
+import Labelling from "./views/Labelling.vue";
 
 Vue.use(Router);
 
@@ -32,6 +33,11 @@ export default new Router({
       path: "/dashboard",
       component: Dashboard,
       beforeEnter: auth
+    },
+    {
+      path: "/labelling",
+      component: Labelling,
+      beforeEnter: authUser
     }
   ]
 });

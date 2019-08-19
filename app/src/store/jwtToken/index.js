@@ -59,6 +59,7 @@ export default {
     signOut: async function ({ commit }) {
       commit("removeToken");
       commit("clearUser");
+      commit("clearAssignment");
       commit("clear");
     }
   }
