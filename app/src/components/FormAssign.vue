@@ -12,7 +12,11 @@
           <b-form-group label="Assign to :"></b-form-group>
         </b-col>
         <b-col md="3">
-          <b-form-select id="input-username" v-model="userSelected">
+          <b-form-select
+            id="input-username"
+            v-model="$v.form.userSelected.$model"
+            :state="$v.form.userSelected.$dirty ? !$v.form.userSelected.$error : null"
+          >
             <template slot="first">
               <option :value="null" disabled>-- Please select user --</option>
             </template>
@@ -26,7 +30,12 @@
           <b-form-group label="Category :"></b-form-group>
         </b-col>
         <b-col md="9">
-          <b-form-radio-group id="radio-group-2" v-model="category" name="radio-sub-component">
+          <b-form-radio-group
+            id="radio-group-2"
+            v-model="$v.form.category.$model"
+            name="radio-sub-component"
+            :state="$v.form.category.$dirty ? !$v.form.category.$error : null"
+          >
             <b-form-radio value="type of profile">Type of profile</b-form-radio>
             <b-form-radio value="interest">Interest</b-form-radio>
             <b-form-radio value="third">This one is Disabled</b-form-radio>
@@ -44,13 +53,19 @@
           ></b-form-group>
         </b-col>
         <b-col md="2">
-          <b-input v-model="numberOfAccout"></b-input>
+          <b-input
+            v-model="$v.form.numberOfAccout.$model"
+            :state="$v.form.numberOfAccout.$dirty ? !$v.form.numberOfAccout.$error : null"
+          ></b-input>
         </b-col>
         <b-col md="3">
           <b-form-group id="fieldset-horizontal" label="channel :" label-for="input-username"></b-form-group>
         </b-col>
         <b-col md="2">
-          <b-form-select v-model="channel">
+          <b-form-select
+            v-model="$v.form.channel.$model"
+            :state="$v.form.channel.$dirty ? !$v.form.channel.$error : null"
+          >
             <option :value="null" disabled>select channel</option>
             <option value="twitter">twitter</option>
             <option value="instagram">instagram</option>
@@ -65,7 +80,7 @@
           <b-form-group id="fieldset-horizontal" label="Filter :" label-for="input-horizontal"></b-form-group>
         </b-col>
         <b-col md="5">
-          <b-form-input v-model="filters" placeholder="what things your filter"></b-form-input>
+          <b-form-input v-model="form.filters" placeholder="what things your filter"></b-form-input>
         </b-col>
       </b-row>
       <br />
@@ -83,10 +98,10 @@
     </b-form>
     <b-modal ref="my-modal" hide-footer title="your assignment details">
       <div class="d-block container">
-        <h6>assign to : {{ userSelected ? userSelected.name : ""}}</h6>
-        <h6>category : {{ category }}</h6>
-        <h6>total : {{ numberOfAccout }}</h6>
-        <h6>channel : {{channel}}</h6>
+        <h6>assign to : {{ form.userSelected ? form.userSelected.name : ""}}</h6>
+        <h6>category : {{ form.category }}</h6>
+        <h6>total : {{ form.numberOfAccout }}</h6>
+        <h6>channel : {{form.channel}}</h6>
       </div>
       <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Reject</b-button>
       <b-button class="mt-2" variant="outline-info" block @click="assignment">Confirm</b-button>
@@ -95,15 +110,19 @@
 </template>
 
 <script>
+const { validationMixin, default: Vuelidate } = require("vuelidate");
+const { required, minLength } = require("vuelidate/lib/validators");
 export default {
+  mixins: [validationMixin],
   data() {
     return {
-      filters: null,
-      userSelected: null,
-      numberOfAccout: "100",
-      channel: null,
-      category: null,
-      index: null
+      form: {
+        filters: null,
+        userSelected: null,
+        numberOfAccout: "100",
+        channel: null,
+        category: null
+      }
     };
   },
   computed: {
@@ -111,16 +130,36 @@ export default {
       return this.$store.getters.users;
     }
   },
+  validations: {
+    form: {
+      userSelected: {
+        required
+      },
+      numberOfAccout: {
+        required
+      },
+      channel: {
+        required
+      },
+      category: {
+        required
+      }
+    }
+  },
   methods: {
     assignment() {
       const assignment = {};
-      assignment.userId = this.userSelected.id;
-      assignment.category = this.category;
-      assignment.channel = this.channel;
-      assignment.total = this.numberOfAccout;
+      assignment.userId = this.form.userSelected.id;
+      assignment.category = this.form.category;
+      assignment.channel = this.form.channel;
+      assignment.total = this.form.numberOfAccout;
       this.$store.dispatch("assignment", assignment);
     },
     showModal() {
+      this.$v.form.userSelected.$touch();
+      if (this.$v.form.userSelected.$anyError) {
+        return;
+      }
       this.$refs["my-modal"].show();
     },
     hideModal() {
