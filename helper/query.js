@@ -27,6 +27,62 @@ const findAssignmentByTimeCreate = datetime => assignmentModel.findOne({
   }
 });
 
+const findAncestorLabels = async labelName => {
+  try {
+    let result = [];
+    const { parent_id } = await findLabelByName(labelName);
+    let parentId = parent_id;
+    console.log(parentId);
+    while (true) {
+      console.log("in loop");
+      var label = await labelModel.findOne({
+        where: {
+          id: parentId
+        },
+        raw: true
+      });
+      result.push(label);
+      parentId = label.parent_id || null;
+      if (label.parent_id == null) {
+        break;
+      }
+    }
+    return result;
+  } catch (error) {
+    throw error
+  }
+}
+
+const findDescendentLabels = async labelName => {
+  let ancestors = await labelModel.findAll({ where: { name: labelName } });
+  let labels = [];
+  let labelDescendents = [];
+  try {
+    while (ancestors.length != 0) {
+      for (const ancestor of ancestors) {
+        let descendents = await labelModel.findAll({
+          where: {
+            parent_id: ancestor.id
+          }
+        });
+        console.log("=== === === === === ");
+        console.log(JSON.stringify(descendents));
+        labelDescendents.push(...descendents);
+        console.log(JSON.stringify(labelDescendents))
+        console.log(JSON.stringify(labelDescendents.length))
+        console.log("=== === === === === ");
+      }
+      labels.push(...labelDescendents);
+      ancestors = labelDescendents;
+      labelDescendents = [];
+      descendents = undefined;
+    }
+    return labels
+  } catch (error) {
+    throw error;
+  }
+}
+
 const findChannelByName = channelName => channelModel.findOne({
   where: { channel_name: channelName },
   raw: true
@@ -85,5 +141,7 @@ module.exports = {
   findChannelByName,
   findAccountsForLabel,
   findAssignmentByTimeCreate,
-  reserveLabelling
+  reserveLabelling,
+  findDescendentLabels,
+  findAncestorLabels
 }
