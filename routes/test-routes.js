@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+
 const Sequelize = require("sequelize");
 
 const accountModel = require("../model/account-model");
@@ -9,9 +10,55 @@ const assignmentModel = require("../model/assignment-model");
 const roleModel = require("../model/role-model");
 const countryModel = require("../model/country-model");
 const channelModel = require("../model/channel-model");
+
 const labelingModel = require("../model/labelling-model");
+
 const Op = Sequelize.Op
 
+router.get("/labelAncestor/:name", async (req, res) => {
+
+})
+// router.get("/descendents", async (req, res) => {
+//   try {
+//     let ancestors = await labelModel.findAll({ hierarchy: true });
+//     res.send(ancestors)
+//   } catch (error) {
+
+//   }
+// })
+router.get("/ancestorLabel", async (req, res) => {
+  let ancestors = await labelModel.findAll({ where: { name: "Business" } });
+  let labels = [];
+  let labelDescendents = [];
+  try {
+    while (ancestors.length != 0) {
+      for (const ancestor of ancestors) {
+        let descendents = await labelModel.findAll({
+          where: {
+            parent_id: ancestor.id
+          }
+        });
+        console.log("=== === === === === ");
+        console.log(JSON.stringify(descendents));
+        labelDescendents.push(...descendents);
+        console.log(JSON.stringify(labelDescendents))
+        console.log(JSON.stringify(labelDescendents.length))
+        console.log("=== === === === === ");
+      }
+      // console.log(JSON.stringify(labelDescendents))
+      labels.push(...labelDescendents);
+      ancestors = labelDescendents;
+      // console.log(JSON.stringify(labels));
+      labelDescendents = [];
+      descendents = undefined;
+      // console.log(JSON.stringify(ancestors));
+      // console.log(JSON.stringify(labels))
+    }
+    res.send(labels)
+  } catch (error) {
+    res.send(error)
+  }
+})
 
 router.get("/account/label", async (req, res) => {
   try {
