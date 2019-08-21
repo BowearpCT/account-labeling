@@ -19,5 +19,6 @@ module.exports = db.sequelize.define(
   },
   {
     timestamps: false
-  }
+  },
+  { underscored: true }
 )
