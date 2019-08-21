@@ -64,9 +64,9 @@ const findDescendentLabels = async labelName => {
           }
         });
         labelDescendents.push(...descendents);
-        console.log(JSON.stringify(labelDescendents))
-        console.log(JSON.stringify(labelDescendents.length))
-        console.log("=== === === === === ");
+        // console.log(JSON.stringify(labelDescendents))
+        // console.log(JSON.stringify(labelDescendents.length))
+        // console.log("=== === === === === ");
       }
       labels.push(...labelDescendents);
       ancestors = labelDescendents;
