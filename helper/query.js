@@ -32,9 +32,7 @@ const findAncestorLabels = async labelName => {
     let result = [];
     const { parent_id } = await findLabelByName(labelName);
     let parentId = parent_id;
-    console.log(parentId);
     while (true) {
-      console.log("in loop");
       var label = await labelModel.findOne({
         where: {
           id: parentId
@@ -65,8 +63,6 @@ const findDescendentLabels = async labelName => {
             parent_id: ancestor.id
           }
         });
-        console.log("=== === === === === ");
-        console.log(JSON.stringify(descendents));
         labelDescendents.push(...descendents);
         console.log(JSON.stringify(labelDescendents))
         console.log(JSON.stringify(labelDescendents.length))
