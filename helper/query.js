@@ -4,6 +4,7 @@ const assignmentModel = require("../model/assignment-model");
 const accountModel = require("../model/account-model");
 const labelingModel = require("../model/account-booking-model")
 const channelModel = require("../model/channel-model");
+const accountLabellingModel = require("../model/account-labelling-model")
 const moment = require("moment");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op
@@ -19,6 +20,12 @@ const createAssignment = assignment => {
   })
   return createResult;
 }
+
+const insertLabelling = (bookingId, labelId) => accountLabellingModel.create({
+    booking_id : bookingId,
+    label_id : labelId
+  })
+
 const findAssignmentByTimeCreate = datetime => assignmentModel.findOne({
   where: {
     created_at: {
@@ -139,5 +146,6 @@ module.exports = {
   findAssignmentByTimeCreate,
   reserveLabelling,
   findDescendentLabels,
-  findAncestorLabels
+  findAncestorLabels,
+  insertLabelling
 }
