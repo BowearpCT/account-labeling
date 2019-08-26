@@ -2,7 +2,8 @@ var express = require('express')
 var router = express.Router()
 const accountModel = require("../model/account-model")
 const {
-  insertLabelling
+  insertLabelling,
+  getAccountBooking
 } = require("../helper/query");
 
 
@@ -24,10 +25,17 @@ router.get("/account", (req, res) => {
     })
 })
 
-router.post("/account/labelling",async (req, res) => {
+router.get("/account/booking", async (req, res) => {
   try {
-    console.log("api api api");
-    
+    const accounts = await getAccountBooking(req.params.assignmentId);
+    res.send(accounts)
+  } catch (error) {
+    res.send(error)
+  }
+})
+
+router.post("/account/labelling", async (req, res) => {
+  try {
     const labellingResult = await insertLabelling(req.body.bookingId, req.body.labelId);
     res.send(labellingResult)
   } catch (error) {
