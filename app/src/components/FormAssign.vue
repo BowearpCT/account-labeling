@@ -156,8 +156,8 @@ export default {
       this.$store.dispatch("assignment", assignment);
     },
     showModal() {
-      this.$v.form.userSelected.$touch();
-      if (this.$v.form.userSelected.$anyError) {
+      this.$v.form.$touch();
+      if (this.$v.form.$anyError) {
         return;
       }
       this.$refs["my-modal"].show();
