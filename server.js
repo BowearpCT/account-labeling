@@ -20,7 +20,8 @@ const assignmentModel = require("./model/assignment-model");
 const roleModel = require("./model/role-model");
 const countryModel = require("./model/country-model");
 const channelModel = require("./model/channel-model");
-const labellingModel = require("./model/labelling-model");
+const accountBookingModel = require("./model/account-booking-model");
+const accountLabellingModel = require("./model/account-labelling-model")
 
 const jwt = require("jwt-simple");
 const passport = require("passport");
@@ -51,9 +52,12 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-accountModel.hasMany(labellingModel, { foreignKey: 'account_id' });
+accountModel.hasMany(accountBookingModel, { foreignKey: 'account_id' });
 accountModel.belongsTo(channelModel, { foreignKey: 'channel_id' });
 accountModel.belongsTo(countryModel, { foreignKey: 'country_id' });
+
+accountLabellingModel.belongsTo(accountBookingModel ,{ foreignKey: 'booking_id' })
+accountLabellingModel.belongsTo(labelModel , { foreignKey: 'label_id' })
 
 channelModel.hasMany(accountModel, { foreignKey: 'channel_id' });
 channelModel.hasMany(assignmentModel, { foreignKey: 'id_channel' });
@@ -64,15 +68,16 @@ countryModel.hasMany(userModel, { foreignKey: 'from_country_id' });
 
 roleModel.hasMany(userModel, { foreignKey: 'role_id' });
 
-labellingModel.belongsTo(accountModel, { foreignKey: 'account_id' });
-labellingModel.belongsTo(assignmentModel, { foreignKey: 'assignment_id' });
-labellingModel.belongsTo(labelModel, { foreignKey: 'label_id' });
+accountBookingModel.belongsTo(accountModel, { foreignKey: 'account_id' });
+accountBookingModel.belongsTo(assignmentModel, { foreignKey: 'assignment_id' });
+accountBookingModel.hasMany(accountLabellingModel, { foreignKey:'booking_id'})
 
 labelModel.hasMany(labelModel, { foreignKey: 'parent_id' });
 labelModel.belongsTo(labelModel, { foreignKey: 'parent_id' });
 labelModel.hasMany(assignmentModel, { foreignKey: 'category_id' });
+labelModel.hasMany(accountLabellingModel, { foreignKey: 'label_id' })
 
-assignmentModel.hasMany(labellingModel, { foreignKey: 'assignment_id' });
+assignmentModel.hasMany(accountBookingModel, { foreignKey: 'assignment_id' });
 assignmentModel.belongsTo(channelModel, { foreignKey: 'id_channel' });
 assignmentModel.belongsTo(userModel, { foreignKey: 'assign_to' });
 assignmentModel.belongsTo(userModel, { foreignKey: 'assign_by' });
