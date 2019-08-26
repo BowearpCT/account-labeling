@@ -2,7 +2,7 @@ const Sequelize = require("sequelize")
 const db = require("../database/db.js")
 
 module.exports = db.sequelize.define(
-  "labelings",
+  "account_bookings",
   {
     id: {
       type: Sequelize.INTEGER,
@@ -27,13 +27,6 @@ module.exports = db.sequelize.define(
     },
     status: {
       type: Sequelize.STRING
-    },
-    label_id: {
-      type: Sequelize.INTEGER,
-      references: {
-        model: "labels",
-        key: "id"
-      }
     }
   },
   {

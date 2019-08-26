@@ -1,6 +1,6 @@
 var express = require('express')
 var router = express.Router()
-const labelingModel = require("../model/labelling-model")
+const labelingModel = require("../model/account-booking-model")
 const moment = require("moment")
 
 // get all labelings

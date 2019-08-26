@@ -11,7 +11,7 @@ const roleModel = require("../model/role-model");
 const countryModel = require("../model/country-model");
 const channelModel = require("../model/channel-model");
 
-const labelingModel = require("../model/labelling-model");
+const labelingModel = require("../model/account-booking-model");
 
 const Op = Sequelize.Op
 
