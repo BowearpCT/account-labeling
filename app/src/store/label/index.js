@@ -2,7 +2,7 @@ const axios = require("axios");
 export default {
   state: {
     category: null,
-    labels: null,
+    labels: [],
     selectedLabel: null,
     suggestionLabel: null
   },
@@ -49,24 +49,21 @@ export default {
   actions: {
     async labels({ commit, dispatch }, payload) {
       try {
-        commit("category", payload);
-        dispatch("fetchLabels", this.getters.category);
+        await commit("setCategory", payload.category);
+        dispatch("fetchLabels");
       } catch (error) {
         throw error;
       }
     },
-    async fetchLabels({ commit }) {
+    async fetchLabels({ commit, state}) {
       const JWTTOKEN = this.getters.jwtToken;
-      const category = this.getters.category;
+      const category = state.category;
       axios.defaults.headers.common["Authorization"] = JWTTOKEN;
       try {
-        const fetchResult = axios.get(
-          "http://localhost:3000/api/label/descendents/",
-          {
-            params: { LabelName: category }
-          }
+        const fetchResult = await axios.get(
+          "http://localhost:3000/api/label/descendents/" + category
         );
-        commit("setLabels", fetchResult);
+        await commit("setLabels", fetchResult.data);
       } catch (error) {
         throw error;
       }

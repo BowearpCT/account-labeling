@@ -27,24 +27,6 @@ export default {
     }
   },
   actions: {
-    async insertAssignment() {
-      const JWTTOKEN = this.getters.jwtToken;
-      const assignment = this.getters.assignment;
-      const admin = this.getters.user;
-      axios.defaults.headers.common["Authorization"] = JWTTOKEN;
-      const config = {
-        category: assignment.category,
-        channel: assignment.channel,
-        adminId: admin.id,
-        userId: assignment.userId,
-        total: assignment.total
-      };
-      try {
-        await axios.post("http://localhost:3000/api/assignment", config);
-      } catch (error) {
-        throw error;
-      }
-    },
     async getAcoountBooking({ commit }, payload) {
       const JWTTOKEN = this.getters.jwtToken;
       axios.defaults.headers.common["Authorization"] = JWTTOKEN;
