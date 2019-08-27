@@ -13,8 +13,11 @@ export default {
     Nav
   },
   methods: {
-    goLabelling() {
-      this.$router.push("/labelling");
+    async goLabelling() {
+      await this.$store.dispatch("labels", { category: "type of profile" });
+      setTimeout(() => {
+        this.$router.push("/labelling");
+      }, 1000);
     }
   }
 };
