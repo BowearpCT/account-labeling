@@ -37,6 +37,10 @@ export default {
     redirectDash() {
       this.$store.dispatch("removeUsers");
       this.$router.push("/dashboard");
+      setTimeout(() => {
+        this.$store.commit("clearCategory");
+        this.$store.commit("clearLabels");
+      }, 500);
     }
   }
 };
