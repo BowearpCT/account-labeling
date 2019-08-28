@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const {
-  getLabelsThatIsCategory,
+  findCategoryLabels,
   findAncestorLabels,
   findDescendentLabels,
   findLabelByName
@@ -55,7 +55,7 @@ router.get("/label/ancestors/:parentId", async (req, res) => {
 
 router.get("/label/category", async (req, res) => {
   try {
-    const categories = await getLabelsThatIsCategory();
+    const categories = await findCategoryLabels();
     res.send(categories);
   } catch (error) {
     res.send(error);

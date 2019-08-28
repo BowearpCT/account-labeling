@@ -7,6 +7,7 @@ import auth from "./auth/admin";
 import authUser from "./auth/user";
 import Assign from "./views/Assign.vue";
 import Labelling from "./views/Labelling.vue";
+import DashBoardUser from "./views/DashBoardUser.vue"
 
 Vue.use(Router);
 
@@ -22,8 +23,7 @@ export default new Router({
     {
       path: "/user",
       beforeEnter: authUser,
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
+      component: DashBoardUser
     },
     {
       path: "/login",
