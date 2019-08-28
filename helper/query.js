@@ -23,9 +23,9 @@ const createAssignment = assignment => {
 }
 
 const insertLabelling = (bookingId, labelId) => accountLabellingModel.create({
-    booking_id : bookingId,
-    label_id : labelId
-  })
+  booking_id: bookingId,
+  label_id: labelId
+})
 
 const getAccountBooking = assignmentId => accountBookingModel.findAll({
   assignment_id: assignmentId
@@ -39,11 +39,10 @@ const findAssignmentByTimeCreate = datetime => assignmentModel.findOne({
   }
 });
 
-const findAncestorLabels = async labelName => {
+const findAncestorLabels = async parentIdInput => {
   try {
     let result = [];
-    const { parent_id } = await findLabelByName(labelName);
-    let parentId = parent_id;
+    let parentId = parentIdInput;
     while (true) {
       var label = await labelModel.findOne({
         where: {
@@ -63,8 +62,8 @@ const findAncestorLabels = async labelName => {
   }
 }
 
-const findDescendentLabels = async labelName => {
-  let ancestors = await labelModel.findAll({ where: { name: labelName } });
+const findDescendentLabels = async labelId => {
+  let ancestors = await labelModel.findAll({ where: { id: labelId } });
   let labels = [];
   let labelDescendents = [];
   try {
@@ -76,9 +75,6 @@ const findDescendentLabels = async labelName => {
           }
         });
         labelDescendents.push(...descendents);
-        // console.log(JSON.stringify(labelDescendents))
-        // console.log(JSON.stringify(labelDescendents.length))
-        // console.log("=== === === === === ");
       }
       labels.push(...labelDescendents);
       ancestors = labelDescendents;
@@ -140,6 +136,8 @@ const getLabelsThatIsCategory = () => labelModel.findAll({
   where: { parent_id: null },
   raw: true
 });
+
+
 module.exports = {
   findUserByRoleId,
   findUserByUsername,

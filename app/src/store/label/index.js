@@ -55,13 +55,13 @@ export default {
         throw error;
       }
     },
-    async fetchLabels({ commit, state}) {
+    async fetchLabels({ commit, state }) {
       const JWTTOKEN = this.getters.jwtToken;
       const category = state.category;
       axios.defaults.headers.common["Authorization"] = JWTTOKEN;
       try {
         const fetchResult = await axios.get(
-          "http://localhost:3000/api/label/descendents/" + category
+          "http://localhost:3000/api/label/descendents/name/" + category
         );
         await commit("setLabels", fetchResult.data);
       } catch (error) {
