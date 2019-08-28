@@ -19,17 +19,6 @@
             <h5>Main category : {{ category }}</h5>
           </b-row>
           <hr />
-
-          <!-- <b-row v-show="value != null">
-            <div>
-              <b-badge
-                pill
-                v-for="(item, index) in value"
-                :key="index"
-                variant="primary"
-              >{{item.name}}</b-badge>
-            </div>
-          </b-row>-->
           <br />
           <b-row>
             <multiselect
@@ -38,7 +27,7 @@
               v-model="values"
               :options="labels"
               :multiple="true"
-              :taggable="false"
+              :taggable="f"
               :close-on-select="false"
               :clear-on-select="true"
               :hide-selected="true"
@@ -46,15 +35,7 @@
               placeholder="Pick some"
               label="name"
               track-by="name"
-            >
-              <!-- <template slot="selection" slot-scope="{ values, search, isOpen }">
-                <span
-                  class="multiselect__single"
-                  v-if="values.length &amp;&amp; !isOpen"
-                >{{ values.length }} options selected</span>
-              </template>-->
-            </multiselect>
-            <!-- <pre class="language-json"><code>{{ value  }}</code></pre> -->
+            ></multiselect>
           </b-row>
           <br />
           <b-row align-h="between">
