@@ -9,7 +9,8 @@ const {
   findAccountsForLabel,
   reserveLabelling,
   findAssignments,
-  findAssignmentByUserId
+  findAssignmentByUserId,
+  findAssignmentProgress
 } = require("../helper/query");
 
 router.post("/assignment", async (req, res) => {
@@ -41,6 +42,16 @@ router.get("/assignment", async (req, res) => {
   try {
     const assignments = await findAssignments()
     res.send(assignments)
+  } catch (error) {
+    res.send(error)
+  }
+})
+
+router.get("/assignment/progress/:assignmentId", async (req, res) => {
+  try {
+    const progress = await findAssignmentProgress(req.params.assignmentId);
+    console.log(progress)
+    res.send(progress)
   } catch (error) {
     res.send(error)
   }

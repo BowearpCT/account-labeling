@@ -189,6 +189,27 @@ const findAccountBooking = assignmentId => accountBookingModel.findAll({
   }
 })
 
+const findAssignmentProgress = async assignmentId => {
+  console.log(assignmentId)
+  let progress = {}
+  const done = await accountBookingModel.findAndCountAll({
+    where: {
+      assignment_id: assignmentId,
+      status: {
+        [Op.ne]: null
+      }
+    },
+  })
+  progress.done = done.count
+  const total = await accountBookingModel.findAndCountAll({
+    where: {
+      assignment_id: assignmentId,
+    },
+  })
+  progress.total = total.count
+  return progress
+}
+
 
 module.exports = {
   findUserByRoleId,
@@ -202,6 +223,7 @@ module.exports = {
   findAncestorLabels,
   findAssignments,
   findAccountBooking,
+  findAssignmentProgress,
   getAccountBooking,
   findCategoryLabels,
   insertLabelling,
