@@ -39,8 +39,33 @@ const findAssignmentByTimeCreate = datetime => assignmentModel.findOne({
   }
 });
 
-const findAssignments = () => {
-  const assignments = assignmentModel.findAll({
+const findAssignments = async () => {
+  const assignments = await assignmentModel.findAll({
+    include: [
+      {
+        model: labelModel
+      },
+      { model: channelModel },
+      {
+        model: userModel,
+        as: 'assignBy',
+        attributes: ['id', 'name']
+      },
+      {
+        model: userModel,
+        as: 'assignTo',
+        attributes: ['id', 'name']
+      }
+    ]
+  })
+  return assignments
+}
+
+const findAssignmentByUserId = async userId => {
+  const assignments = await assignmentModel.findAll({
+    where: {
+      "$assignTo.id$": userId
+    },
     include: [
       {
         model: labelModel
@@ -167,6 +192,7 @@ module.exports = {
   findChannelByName,
   findAccountsForLabel,
   findAssignmentByTimeCreate,
+  findAssignmentByUserId,
   findDescendentLabels,
   findAncestorLabels,
   findAssignments,

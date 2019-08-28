@@ -8,7 +8,8 @@ const {
   findAssignmentByTimeCreate,
   findAccountsForLabel,
   reserveLabelling,
-  findAssignments
+  findAssignments,
+  findAssignmentByUserId
 } = require("../helper/query");
 
 router.post("/assignment", async (req, res) => {
@@ -44,5 +45,15 @@ router.get("/assignment", async (req, res) => {
     res.send(error)
   }
 })
+
+router.get("/assignment/user/:userId", async (req, res) => {
+  try {
+    const assignments = await findAssignmentByUserId(req.params.userId);
+    res.send(assignments)
+  } catch (error) {
+    res.send(error)
+  }
+})
+
 
 module.exports = router
