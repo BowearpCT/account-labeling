@@ -17,6 +17,7 @@ export default {
       await this.$store.dispatch("labels", { category: "type of profile" });
       setTimeout(() => {
         this.$router.push("/labelling");
+        location.reload();
       }, 1000);
     }
   }

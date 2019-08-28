@@ -27,7 +27,7 @@
               v-model="values"
               :options="labels"
               :multiple="true"
-              :taggable="f"
+              :taggable="false"
               :close-on-select="false"
               :clear-on-select="true"
               :hide-selected="true"
