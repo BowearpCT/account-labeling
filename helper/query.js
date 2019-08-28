@@ -2,7 +2,6 @@ const userModel = require("../model/user-model");
 const labelModel = require("../model/label-model");
 const assignmentModel = require("../model/assignment-model");
 const accountModel = require("../model/account-model");
-const labelingModel = require("../model/account-booking-model")
 const channelModel = require("../model/channel-model");
 const accountLabellingModel = require("../model/account-labelling-model")
 const accountBookingModel = require("../model/account-booking-model")
@@ -139,7 +138,7 @@ const findChannelByName = channelName => channelModel.findOne({
   raw: true
 });
 
-const reserveLabelling = labellings => labelingModel.bulkCreate(labellings)
+const reserveLabelling = labellings => accountBookingModel.bulkCreate(labellings)
 
 const findAccountsForLabel = (channelId, categoryId, numberOfAccounts) => {
   const accounts = accountModel.findAll({
@@ -154,7 +153,7 @@ const findAccountsForLabel = (channelId, categoryId, numberOfAccounts) => {
     },
     limit: numberOfAccounts,
     include: [{
-      model: labelingModel,
+      model: accountBookingModel,
       include: [{
         model: assignmentModel,
       }],
@@ -179,10 +178,16 @@ const findLabelByName = labelName => labelModel.findOne({
   raw: true
 });
 
-const getLabelsThatIsCategory = () => labelModel.findAll({
+const findCategoryLabels = () => labelModel.findAll({
   where: { parent_id: null },
   raw: true
 });
+
+const findAccountBooking = assignmentId => accountBookingModel.findAll({
+  where: {
+    assignment_id: assignmentId
+  }
+})
 
 
 module.exports = {
@@ -196,8 +201,9 @@ module.exports = {
   findDescendentLabels,
   findAncestorLabels,
   findAssignments,
+  findAccountBooking,
   getAccountBooking,
-  getLabelsThatIsCategory,
+  findCategoryLabels,
   insertLabelling,
   createAssignment,
   reserveLabelling,
