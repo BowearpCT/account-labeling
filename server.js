@@ -56,8 +56,8 @@ accountModel.hasMany(accountBookingModel, { foreignKey: 'account_id' });
 accountModel.belongsTo(channelModel, { foreignKey: 'channel_id' });
 accountModel.belongsTo(countryModel, { foreignKey: 'country_id' });
 
-accountLabellingModel.belongsTo(accountBookingModel ,{ foreignKey: 'booking_id' })
-accountLabellingModel.belongsTo(labelModel , { foreignKey: 'label_id' })
+accountLabellingModel.belongsTo(accountBookingModel, { foreignKey: 'booking_id' })
+accountLabellingModel.belongsTo(labelModel, { foreignKey: 'label_id' })
 
 channelModel.hasMany(accountModel, { foreignKey: 'channel_id' });
 channelModel.hasMany(assignmentModel, { foreignKey: 'id_channel' });
@@ -70,7 +70,7 @@ roleModel.hasMany(userModel, { foreignKey: 'role_id' });
 
 accountBookingModel.belongsTo(accountModel, { foreignKey: 'account_id' });
 accountBookingModel.belongsTo(assignmentModel, { foreignKey: 'assignment_id' });
-accountBookingModel.hasMany(accountLabellingModel, { foreignKey:'booking_id'})
+accountBookingModel.hasMany(accountLabellingModel, { foreignKey: 'booking_id' })
 
 labelModel.hasMany(labelModel, { foreignKey: 'parent_id' });
 labelModel.belongsTo(labelModel, { foreignKey: 'parent_id' });
@@ -79,8 +79,8 @@ labelModel.hasMany(accountLabellingModel, { foreignKey: 'label_id' })
 
 assignmentModel.hasMany(accountBookingModel, { foreignKey: 'assignment_id' });
 assignmentModel.belongsTo(channelModel, { foreignKey: 'id_channel' });
-assignmentModel.belongsTo(userModel, { foreignKey: 'assign_to' });
-assignmentModel.belongsTo(userModel, { foreignKey: 'assign_by' });
+assignmentModel.belongsTo(userModel, { as: 'assignTo', foreignKey: 'assign_to' });
+assignmentModel.belongsTo(userModel, { as: 'assignBy', foreignKey: 'assign_by' });
 assignmentModel.belongsTo(labelModel, { foreignKey: 'category_id' });
 
 userModel.hasMany(assignmentModel, { foreignKey: 'assign_to' });
