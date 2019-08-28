@@ -7,7 +7,8 @@ const {
   findChannelByName,
   findAssignmentByTimeCreate,
   findAccountsForLabel,
-  reserveLabelling
+  reserveLabelling,
+  findAssignments
 } = require("../helper/query");
 
 router.post("/assignment", async (req, res) => {
@@ -32,6 +33,15 @@ router.post("/assignment", async (req, res) => {
     res.send(accountReservations);
   } catch (error) {
     res.send(error);
+  }
+})
+
+router.get("/assignment", async (req, res) => {
+  try {
+    const assignments = await findAssignments()
+    res.send(assignments)
+  } catch (error) {
+    res.send(error)
   }
 })
 

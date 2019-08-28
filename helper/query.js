@@ -39,6 +39,28 @@ const findAssignmentByTimeCreate = datetime => assignmentModel.findOne({
   }
 });
 
+const findAssignments = () => {
+  const assignments = assignmentModel.findAll({
+    include: [
+      {
+        model: labelModel
+      },
+      { model: channelModel },
+      {
+        model: userModel,
+        as: 'assignBy',
+        attributes: ['id', 'name']
+      },
+      {
+        model: userModel,
+        as: 'assignTo',
+        attributes: ['id', 'name']
+      }
+    ]
+  })
+  return assignments
+}
+
 const findAncestorLabels = async parentIdInput => {
   try {
     let result = [];
@@ -142,14 +164,15 @@ module.exports = {
   findUserByRoleId,
   findUserByUsername,
   findLabelByName,
-  getLabelsThatIsCategory,
-  createAssignment,
   findChannelByName,
   findAccountsForLabel,
   findAssignmentByTimeCreate,
-  reserveLabelling,
   findDescendentLabels,
   findAncestorLabels,
+  findAssignments,
+  getAccountBooking,
+  getLabelsThatIsCategory,
   insertLabelling,
-  getAccountBooking
+  createAssignment,
+  reserveLabelling,
 }
