@@ -2,11 +2,15 @@ import router from "../../router";
 const axios = require("axios");
 export default {
   state: {
-    assignment: null
+    assignment: null,
+    assignments: null
   },
   getters: {
     assignment: function (state) {
       return state.assignment;
+    },
+    assignments: function (state) {
+      return state.assignments;
     }
   },
   mutations: {
@@ -15,6 +19,12 @@ export default {
     },
     clearAssignment: function (state) {
       state.assignment = null;
+    },
+    setAssignments: function (state, payload) {
+      state.assignments = payload;
+    },
+    clearAssignments: function (state) {
+      state.assignments = null;
     }
   },
   actions: {
@@ -23,6 +33,13 @@ export default {
         commit("setAssignment", payload);
         await dispatch("insertAssignment");
         router.push("/dashboard");
+      } catch (error) {
+        throw error;
+      }
+    },
+    async assignments({ dispatch }, payload) {
+      try {
+        dispatch("fetchAssignments", payload);
       } catch (error) {
         throw error;
       }
@@ -41,6 +58,22 @@ export default {
       };
       try {
         await axios.post("http://localhost:3000/api/assignment", config);
+      } catch (error) {
+        throw error;
+      }
+    },
+    async fetchAssignments({ commit }, payload) {
+      try {
+        let assignments = {};
+        axios.defaults.headers.common["Authorization"] = this.getters.jwtToken;
+        if (payload) {
+          assignments = await axios.get(
+            "http://localhost:3000/api/assignment/user/" + payload
+          );
+        } else {
+          assignments = await axios.get("http://localhost:3000/api/assignment");
+        }
+        commit("setAssignments", assignments.data);
       } catch (error) {
         throw error;
       }

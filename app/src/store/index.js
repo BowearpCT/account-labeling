@@ -7,7 +7,7 @@ import userlist from "./userlist";
 import assignment from "./assignment";
 import createPersistedState from "vuex-persistedstate";
 import label from "./label";
-import account from "./account"
+import account from "./account";
 
 Vue.use(Vuex);
 

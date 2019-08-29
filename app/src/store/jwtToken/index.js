@@ -29,8 +29,10 @@ export default {
         commit("success", "login success! ");
         if (user) {
           if (user.role == "2") {
+            dispatch("assignments", user.id);
             return router.push("/user");
           } else {
+            dispatch("assignments");
             return router.push("/dashboard");
           }
         } else {
