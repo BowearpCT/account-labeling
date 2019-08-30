@@ -27,17 +27,14 @@ export default {
     }
   },
   actions: {
-    async getAcoountBooking({ commit }, payload) {
+    getAcoountBooking: async ({ commit }, payload) => {
       const JWTTOKEN = this.getters.jwtToken;
       axios.defaults.headers.common["Authorization"] = JWTTOKEN;
       try {
-        const accountsBooking = axios.get(
-          "http://localhost:3000/api/assignment",
-          {
-            body: { assignmentId: payload.assignment.id }
-          }
+        const reservedAccounts = axios.get(
+          "http://localhost:3000/api/account-booking/" + payload
         );
-        commit("accounts", accountsBooking);
+        commit("accounts", reservedAccounts);
       } catch (error) {
         throw error;
       }
