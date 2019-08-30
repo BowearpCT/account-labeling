@@ -8,11 +8,11 @@
       <b-row>
         <b-col offset-md="2" md="8">
           <b-row>
-            <h3>Dash Board</h3>
+            <h3>Dashboard</h3>
           </b-row>
           <hr />
           <b-row v-show="assignments">
-            <b-col v-for="(assignment, index) in assignments" :key="index" cols="6" md="4">
+            <b-col v-for="(assignment, index) in assignments" :key="index" sm="12" md="6" xl="4">
               <Progress v-bind:assignment="{assignment}"></Progress>
             </b-col>
           </b-row>

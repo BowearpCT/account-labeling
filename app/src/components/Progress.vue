@@ -95,7 +95,7 @@ export default {
     box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.04);
     box-shadow: 0 32px 80px 14px rgba(0, 0, 0, 0.36),
       0 0 0 1px rgba(0, 0, 0, 0.3);
   }
