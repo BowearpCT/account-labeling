@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { formatLabellingReservation } = require("../helper/formater");
+const {
+  formatLabellingReservation,
+  formatAssignmentProgress } = require("../helper/formater");
 const {
   createAssignment,
   findLabelByName,
@@ -41,21 +43,15 @@ router.post("/assignment", async (req, res) => {
 router.get("/assignment", async (req, res) => {
   try {
     const assignments = await findAssignments()
-    res.send(assignments)
+    const progress = await findAssignmentProgress(assignments)
+    const assignmentProgress = await formatAssignmentProgress(assignments, progress)
+    res.send(assignmentProgress)
   } catch (error) {
     res.send(error)
   }
 })
 
-router.get("/assignment/progress/:assignmentId", async (req, res) => {
-  try {
-    const progress = await findAssignmentProgress(req.params.assignmentId);
-    console.log(progress)
-    res.send(progress)
-  } catch (error) {
-    res.send(error)
-  }
-})
+
 
 router.get("/assignment/user/:userId", async (req, res) => {
   try {

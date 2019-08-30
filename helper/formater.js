@@ -14,6 +14,23 @@ const formatLabellingReservation = (accounts, assignment) => {
   return labellingFormat;
 }
 
+const formatAssignmentProgress = (assignments, progress) => {
+  const assignmentFormat = []
+  assignments.forEach((assignment, index) => {
+    let assignmentObj = {};
+    assignmentObj.id = assignment.id
+    assignmentObj.category = assignment.label.name
+    assignmentObj.channel = assignment.channel.channel_name
+    assignmentObj.assignBy = assignment.assignBy.name
+    assignmentObj.assignTo = assignment.assignTo.name
+    assignmentObj.progress = progress[index]
+    assignmentObj.total = assignment.total
+    assignmentFormat.push(assignmentObj);
+  })
+  console.log(assignmentFormat)
+  return assignmentFormat
+}
+
 module.exports = {
-  formatLabellingReservation
+  formatLabellingReservation, formatAssignmentProgress
 }

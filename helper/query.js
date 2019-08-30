@@ -80,7 +80,8 @@ const findAssignmentByUserId = async userId => {
         as: 'assignTo',
         attributes: ['id', 'name']
       }
-    ]
+    ],
+    raw: true
   })
   return assignments
 }
@@ -189,24 +190,20 @@ const findAccountBooking = assignmentId => accountBookingModel.findAll({
   }
 })
 
-const findAssignmentProgress = async assignmentId => {
-  console.log(assignmentId)
-  let progress = {}
-  const done = await accountBookingModel.findAndCountAll({
-    where: {
-      assignment_id: assignmentId,
-      status: {
-        [Op.ne]: null
-      }
-    },
-  })
-  progress.done = done.count
-  const total = await accountBookingModel.findAndCountAll({
-    where: {
-      assignment_id: assignmentId,
-    },
-  })
-  progress.total = total.count
+const findAssignmentProgress = async assignments => {
+  progress = []
+  for (let i = 0; i < assignments.length; i++) {
+    const { count } = await accountBookingModel.findAndCountAll({
+      where: {
+        assignment_id: assignments[i].id,
+        status: {
+          [Op.ne]: null
+        }
+      },
+      raw: true
+    })
+    progress.push(count);
+  }
   return progress
 }
 
