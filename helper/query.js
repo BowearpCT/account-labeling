@@ -80,8 +80,7 @@ const findAssignmentByUserId = async userId => {
         as: 'assignTo',
         attributes: ['id', 'name']
       }
-    ],
-    raw: true
+    ]
   })
   return assignments
 }
@@ -146,8 +145,8 @@ const findAccountsForLabel = (channelId, categoryId, numberOfAccounts) => {
     where: {
       channel_id: channelId,
       [Op.or]: {
-        "$labelings.id$": null,
-        "$labelings.assignment.category_id$": {
+        "$account_bookings.id$": null,
+        "$account_bookings.assignment.category_id$": {
           [Op.ne]: categoryId
         }
       }
@@ -204,6 +203,7 @@ const findAssignmentProgress = async assignments => {
     })
     progress.push(count);
   }
+  console.log(progress)
   return progress
 }
 

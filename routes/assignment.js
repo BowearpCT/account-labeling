@@ -56,7 +56,9 @@ router.get("/assignment", async (req, res) => {
 router.get("/assignment/user/:userId", async (req, res) => {
   try {
     const assignments = await findAssignmentByUserId(req.params.userId);
-    res.send(assignments)
+    const progress = await findAssignmentProgress(assignments)
+    const assignmentProgress = await formatAssignmentProgress(assignments, progress)
+    res.send(assignmentProgress)
   } catch (error) {
     res.send(error)
   }
