@@ -35,11 +35,11 @@ export default {
       this.$router.push("/login");
     },
     redirectDash() {
-      this.$store.dispatch("removeUsers");
-      this.$router.push("/dashboard");
+      // this.$store.dispatch("removeUsers");
       setTimeout(() => {
         this.$store.commit("clearCategory");
         this.$store.commit("clearLabels");
+        this.$router.push("/dashboard");
       }, 500);
     }
   }
