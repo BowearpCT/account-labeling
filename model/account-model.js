@@ -8,6 +8,9 @@ module.exports = db.sequelize.define(
       type: Sequelize.STRING,
       primaryKey: true,
     },
+    account_id: {
+      type: Sequelize.STRING,
+    },
     account_name: {
       type: Sequelize.STRING
     },
