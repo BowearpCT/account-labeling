@@ -1,16 +1,21 @@
 <template>
-  <div
-    class="fb-page"
-    data-tabs="timeline"
-    data-href="https://www.facebook.com/sompondofficial"
-    data-width="380"
-    data-hide-cover="false"
-  ></div>
+    <div
+      class="fb-page"
+      data-tabs="timeline"
+      :data-href="url"
+      data-width="380"
+      data-hide-cover="false"
+    ></div>
 </template>
 <script>
 export default {
   data() {
-    return {};
+    return {
+      url: "https://www.facebook.com/" + this.accountId
+    };
+  },
+  props: {
+    accountId: String
   },
   computed: {},
   methods: {}
