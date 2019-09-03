@@ -186,7 +186,10 @@ const findCategoryLabels = () => labelModel.findAll({
 const findAccountBooking = assignmentId => accountBookingModel.findAll({
   where: {
     assignment_id: assignmentId
-  }
+  },
+  include: [
+    { model: accountModel }
+  ]
 })
 
 const findAssignmentProgress = async assignments => {
