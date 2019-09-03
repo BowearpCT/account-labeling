@@ -3,7 +3,8 @@ var router = express.Router()
 const accountModel = require("../model/account-model")
 const {
   insertLabelling,
-  getAccountBooking
+  getAccountBooking,
+  findAccountBooking
 } = require("../helper/query");
 
 
@@ -25,9 +26,9 @@ router.get("/account", (req, res) => {
     })
 })
 
-router.get("/account/booking", async (req, res) => {
+router.get("/account/booking/:assignmentId", async (req, res) => {
   try {
-    const accounts = await getAccountBooking(req.params.assignmentId);
+    const accounts = await findAccountBooking(req.params.assignmentId);
     res.send(accounts)
   } catch (error) {
     res.send(error)
