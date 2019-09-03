@@ -38,12 +38,24 @@ export default {
   props: {
     assignment: Object
   },
-  computed: {},
+  computed: {
+    user() {
+      return this.$store.getters.user;
+    }
+  },
   methods: {
     goToLabelling() {
-      this.$store.dispatch("getAcoountBooking", assignment.assignment.id);
-      this.$store.dispatch("labels", assignment.assignment.label.name);
-      this.$router.push("/labelling");
+      if (this.user.role == 2) {
+        this.$store.dispatch(
+          "getAcoountBooking",
+          this.assignment.assignment.id
+        );
+        this.$store.dispatch("labels", this.assignment.assignment.category);
+        setTimeout(() => {
+          this.$router.push("/labelling");
+          window.location.reload(true);
+        }, 500);
+      }
     },
     progressIcon() {
       if (this.assignment.assignment.channel == "instagram") {
@@ -96,7 +108,7 @@ export default {
 
   &:hover {
     transform: scale(1.04);
-    box-shadow: 0 32px 80px 14px rgba(0, 0, 0, 0.36),
+    box-shadow: 0 20px 60px 9px rgba(0, 0, 0, 0.36),
       0 0 0 1px rgba(0, 0, 0, 0.3);
   }
 }
