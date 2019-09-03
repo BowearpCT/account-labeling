@@ -49,7 +49,7 @@ export default {
   actions: {
     async labels({ commit, dispatch }, payload) {
       try {
-        await commit("setCategory", payload.category);
+        await commit("setCategory", payload);
         dispatch("fetchLabels");
       } catch (error) {
         throw error;

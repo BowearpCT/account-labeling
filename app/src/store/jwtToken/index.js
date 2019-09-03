@@ -62,6 +62,7 @@ export default {
       commit("clearAssignment");
       commit("clearAssignments");
       commit("clear");
+      commit("resetIndex");
     }
   }
 };
