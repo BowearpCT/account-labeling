@@ -2,7 +2,8 @@ const axios = require("axios");
 export default {
   state: {
     accounts: null,
-    currentAccount: null
+    currentAccount: null,
+    index:0
   },
   getters: {
     accounts: function (state) {
@@ -10,6 +11,9 @@ export default {
     },
     currentAccount: function (state) {
       return state.currentAccount;
+    },
+    index: function(state){
+      return state.index
     }
   },
   mutations: {
@@ -24,17 +28,26 @@ export default {
     },
     clearCurrentAccount: function (state) {
       state.currentAccount = null;
+    },
+    increateIndex: function(state){
+      state.index += 1 ;
+    },
+    decreateIndex: function(state){
+      state.index -= 1;
+    },
+    resetIndex: function(state){
+      state.index = 0;
     }
   },
   actions: {
-    getAcoountBooking: async ({ commit }, payload) => {
+    async getAcoountBooking({ commit }, payload) {
       const JWTTOKEN = this.getters.jwtToken;
       axios.defaults.headers.common["Authorization"] = JWTTOKEN;
       try {
-        const reservedAccounts = axios.get(
+        const reservedAccounts = await axios.get(
           "http://localhost:3000/api/account-booking/" + payload
         );
-        commit("accounts", reservedAccounts);
+        commit("setAccounts", reservedAccounts.data);
       } catch (error) {
         throw error;
       }
