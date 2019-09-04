@@ -3,8 +3,10 @@ var router = express.Router()
 const accountModel = require("../model/account-model")
 const {
   insertLabelling,
-  getAccountBooking,
-  findAccountBooking
+  findAccountBooking,
+  findAccountLabelling,
+  formatAccountLabellings,
+  insertLabellings
 } = require("../helper/query");
 
 
@@ -37,8 +39,18 @@ router.get("/account/booking/:assignmentId", async (req, res) => {
 
 router.post("/account/labelling", async (req, res) => {
   try {
-    const labellingResult = await insertLabelling(req.body.bookingId, req.body.labelId);
+    const accountlabellings = await formatAccountLabellings(req.body.reservedId, req.body.labels)
+    const labellingResult = await insertLabellings(accountlabellings);
     res.send(labellingResult)
+  } catch (error) {
+    res.send(error)
+  }
+})
+
+router.get("/account/labelling/:accountReservedId",async (req, res) => {
+  try {
+    const labels = await findAccountLabelling(req.params.accountReservedId);
+    res.send(labels)
   } catch (error) {
     res.send(error)
   }
