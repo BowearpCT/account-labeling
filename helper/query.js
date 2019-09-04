@@ -21,6 +21,8 @@ const createAssignment = assignment => {
   return createResult;
 }
 
+const insertLabellings = labellings => accountLabellingModel.bulkCreate(labellings)
+
 const insertLabelling = (bookingId, labelId) => accountLabellingModel.create({
   booking_id: bookingId,
   label_id: labelId
@@ -138,7 +140,7 @@ const findChannelByName = channelName => channelModel.findOne({
   raw: true
 });
 
-const reserveLabelling = labellings => accountBookingModel.bulkCreate(labellings)
+const reserveLabelling = accounts => accountBookingModel.bulkCreate(accounts)
 
 const findAccountsForLabel = (channelId, categoryId, numberOfAccounts) => {
   const accounts = accountModel.findAll({
@@ -162,6 +164,13 @@ const findAccountsForLabel = (channelId, categoryId, numberOfAccounts) => {
   });
   return accounts;
 }
+
+const findAccountLabelling = accountReservedId => accountLabellingModel.find({
+    where:{
+      "$account_booking.account_id$": accountReservedId
+    },
+    include: [ {model:accountBookingModel} ]
+  })
 
 const findUserByRoleId = roleId => userModel.findAll({
   where: { role_id: roleId },
@@ -223,10 +232,12 @@ module.exports = {
   findAncestorLabels,
   findAssignments,
   findAccountBooking,
+  findAccountLabelling,
   findAssignmentProgress,
   getAccountBooking,
   findCategoryLabels,
   insertLabelling,
+  insertLabellings,
   createAssignment,
   reserveLabelling,
 }
