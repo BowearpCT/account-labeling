@@ -27,7 +27,7 @@
 export default {
   data() {
     return {
-      background: "background-color: #b3ff99;",
+      background: "background-color: #ffff99;",
       icon: null
     };
   },
@@ -74,12 +74,8 @@ export default {
     },
     progressColor() {
       if (
-        this.assignment.assignment.total -
-          this.assignment.assignment.progress !=
-        0
-      ) {
-        this.background = "background-color: #ffff99;";
-      }
+        this.assignment.assignment.total == this.assignment.assignment.progress
+      ) this.background = "background-color: #b3ff99;";
     }
   }
 };
