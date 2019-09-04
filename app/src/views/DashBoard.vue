@@ -11,11 +11,11 @@
             <h3>Dashboard</h3>
           </b-row>
           <b-row>
-            <b-col md="2">
+            <b-col md="3">
               <multiselect
                 @select="userAssignments"
                 v-model="value"
-                deselect-label="Can't remove this value"
+                deselect-label="remove this value"
                 track-by="name"
                 label="name"
                 placeholder="Select user"
