@@ -14,8 +14,19 @@ const formatLabellingReservation = (accounts, assignment) => {
   return labellingFormat;
 }
 
+const formatAccountLabellings = (bookingId, labels) => {
+  let labellingFormat = []
+  labels.forEach( label => {
+    let labelling = {}
+    labelling.bookingId = bookingId
+    labelling.label = label.id
+    labellingFormat.push(labelling)
+  })
+  return labellingFormat
+}
+
 const formatAssignmentProgress = (assignments, progress) => {
-  const assignmentFormat = []
+  let assignmentFormat = []
   assignments.forEach((assignment, index) => {
     let assignmentObj = {};
     assignmentObj.id = assignment.id
@@ -32,5 +43,7 @@ const formatAssignmentProgress = (assignments, progress) => {
 }
 
 module.exports = {
-  formatLabellingReservation, formatAssignmentProgress
+  formatLabellingReservation,
+  formatAssignmentProgress,
+  formatAccountLabellings
 }
