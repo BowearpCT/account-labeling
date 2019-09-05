@@ -14,12 +14,13 @@ const formatLabellingReservation = (accounts, assignment) => {
   return labellingFormat;
 }
 
-const formatAccountLabellings = (bookingId, labels) => {
+const formatAccountLabellings = (reservedId, labels) => {
+  console.log("=== START FORMAT ===")
   let labellingFormat = []
   labels.forEach( label => {
     let labelling = {}
-    labelling.bookingId = bookingId
-    labelling.label = label.id
+    labelling.booking_id = reservedId
+    labelling.label_id = label.id
     labellingFormat.push(labelling)
   })
   return labellingFormat
