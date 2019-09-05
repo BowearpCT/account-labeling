@@ -8,10 +8,12 @@
     <hr />
     <b-form @submit.stop.prevent>
       <b-row>
-        <b-col>
-          <b-card style="max-width: 540px;">
-            <!-- <FacebookEmbed /> -->
-            <TwitterEmbed />
+        <b-col v-show="accounts">
+          <b-card v-if="accounts[index].account.channel_id == 1" style="max-width: 540px;">
+            <FacebookEmbed :accountId="accounts[index].account.account_id" />
+          </b-card>
+          <b-card v-else-if="accounts.account.channel_id == 2" style="max-width: 540px;">
+            <TwitterEmbed :accountId="accounts[index].account.account_id" />
           </b-card>
         </b-col>
         <b-col>
@@ -40,10 +42,10 @@
           <br />
           <b-row align-h="between">
             <b-col cols="auto">
-              <b-button type="submit" size="md" variant="outline-danger">Back</b-button>&nbsp;
+              <!-- <b-button type="submit" size="md" @click="decreateIndex" variant="outline-danger">Back</b-button>&nbsp; -->
             </b-col>
             <b-col cols="auto">
-              <b-button type="submit" size="md" variant="danger">Save & Next</b-button>
+              <b-button type="submit" size="md" @click="goNext" variant="danger">Save & Next</b-button> 
             </b-col>
           </b-row>
         </b-col>
@@ -55,6 +57,7 @@
 
 <script>
 import TwitterEmbed from "./InstagramEmbed";
+import FacebookEmbed from "./FacebookEmbed";
 import Multiselect from "vue-multiselect";
 import { log } from "util";
 const axios = require("axios");
@@ -67,6 +70,7 @@ export default {
   },
   components: {
     TwitterEmbed,
+    FacebookEmbed,
     Multiselect
   },
   computed: {
@@ -75,6 +79,12 @@ export default {
     },
     labels() {
       return this.$store.getters.labels;
+    },
+    accounts() {
+      return this.$store.getters.accounts;
+    },
+    index() {
+      return this.$store.getters.index;
     }
   },
   watch: {},
@@ -118,11 +128,30 @@ export default {
           }
         }
       });
+    },
+    async goNext(){
+      console.log(this.accounts[this.index].id)
+      console.log(this.values)
+      await this.$store.dispatch("insertLabelling", {
+        reservedId:this.accounts[this.index].id,
+        labels: this.values
+      });
+      await this.increateIndex()
+    },
+    goBack(){
+
+    },
+    increateIndex() {
+      this.$store.commit("increateIndex");
+      window.location.reload(true);
+    },
+    decreateIndex() {
+      this.$store.commit("decreateIndex");
+      window.location.reload(true);
     }
   }
 };
 </script>
-
 
 <style >
 </style>
