@@ -68,16 +68,15 @@ export default {
         throw error;
       }
     },
-    async insertLabelling(payload) {
+    async insertLabelling({}, payload) {
       const JWTTOKEN = this.getters.jwtToken;
       axios.defaults.headers.common["Authorization"] = JWTTOKEN;
       try {
-        await axios.post("http://localhost:3000/api/label/descendents/", {
-          params: {
-            accountId: payload.accountId,
-            labels: payload.labels
-          }
-        });
+        const data = {
+          accountReservedId: payload.reservedId,
+          labels: payload.labels
+        };
+        await axios.post("http://localhost:3000/api/account/labelling", data);
       } catch (error) {
         throw error;
       }
