@@ -2,7 +2,7 @@ const chai = require('chai')
 const chaiHttp = require('chai-http')
 const { after, before, describe, it } = require('mocha')
 
-const server = require('../build/main').default
+const server = require("../server").default
 
 chai.use(chaiHttp)
 chai.should()
@@ -20,7 +20,7 @@ describe('Testing unit 1', () => {
         .get('/')
         .end((e, res) => {
           res.should.have.status(200)
-          res.body.should.have.property('message').eql('OK')
+          res.body.data.eql('Hello World!')
           done()
         })
     })
@@ -31,13 +31,13 @@ describe('Testing unit 1', () => {
       chai
         .request(server)
         .post('/')
-        .set('Authorization', 'WHATTTTT')
+        .set('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbjAwMSIsInJvbGUiOjEsImlhdCI6MTU2NjgwNTQ4MzU1MH0.ZdkdBoZ0ZDfTnGGLe_9ltsh661kohJCGmPqon76X4ic')
         .send({
           data: 'OK',
         })
         .end((e, res) => {
           res.should.have.status(200)
-          res.body.should.have.property('message').eql('OK with POST')
+          res.body.data.eql('Post method')
           done()
         })
     })

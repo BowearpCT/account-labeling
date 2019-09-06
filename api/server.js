@@ -88,9 +88,9 @@ userModel.hasMany(assignmentModel, { foreignKey: 'assign_by' });
 userModel.belongsTo(countryModel, { foreignKey: 'from_country_id' });
 userModel.belongsTo(roleModel, { foreignKey: 'role_id' });
 
-
 app.use('/test', test);
 app.use('/user', login);
 app.use("/api", requireJWTAuth, [label, account, hierarchy, accountBooking, user, assignment]);
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
