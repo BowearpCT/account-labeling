@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="dark" variant="dark">
+    <b-navbar toggleable="lg" type="dark" variant="danger">
       <b-navbar-brand href="#" @click="redirectDash">Source Labeling</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -35,7 +35,6 @@ export default {
       this.$router.push("/login");
     },
     redirectDash() {
-      // this.$store.dispatch("removeUsers");
       setTimeout(() => {
         this.$store.commit("clearCategory");
         this.$store.commit("clearLabels");
