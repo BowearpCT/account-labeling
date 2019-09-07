@@ -68,7 +68,7 @@ export default {
         axios.defaults.headers.common["Authorization"] = this.getters.jwtToken;
         if (payload) {
           assignments = await axios.get(
-            "http://localhost:3000/api/assignment/user/" + payload
+            "http://localhost:3000/api/assignment/user/" + payload.id
           );
         } else {
           assignments = await axios.get("http://localhost:3000/api/assignment");
