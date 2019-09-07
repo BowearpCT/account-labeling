@@ -2,47 +2,45 @@
   <div class="assign">
     <Nav />
     <br />
-    <br />
-    <br />
     <b-container fluid>
-      <b-row>
-        <b-col offset-md="2" md="8">
+      <b-row align-h="start">
+        <b-col offset="1" cols="10">
           <b-row>
-            <h3>Dashboard</h3>
+            <b-col cols="5">
+              <h1>assignment management</h1>
+            </b-col>
           </b-row>
           <b-row>
-            <b-col md="3">
-              <multiselect
-                @select="userAssignments"
-                v-model="value"
-                deselect-label="remove this value"
-                track-by="name"
-                label="name"
-                placeholder="Select user"
-                :options="users"
-                :searchable="false"
-                :allow-empty="false"
-              ></multiselect>
-            </b-col>
-            <b-col md="2">
-              <b-col lg="4" class="pb-2">
-                <b-button variant="outline-info" @click="goAssignment">add assignment</b-button>
-              </b-col>
+            <b-col cols="5">
+              <b-form-group></b-form-group>
             </b-col>
           </b-row>
-          <hr />
-          <b-row v-show="assignments">
-            <b-col
-              v-for="(assignment, index) in assignments"
-              :key="index"
-              sm="12"
-              md="6"
-              lg="4"
-              xl="4"
-            >
-              <Progress v-bind:assignment="{assignment}"></Progress>
+          <b-row align-h="between">
+            <b-col cols="3">
+              <b-form-group>
+                <multiselect
+                  @select="userAssignments"
+                  @remove="userAssignments"
+                  v-model="value"
+                  :options="users"
+                  placeholder="Filter user"
+                  label="name"
+                  track-by="name"
+                  :searchable="false"
+                ></multiselect>
+              </b-form-group>
+            </b-col>
+            <b-col cols="1">
+              <b-form-group>
+                <b-button variant="danger">+</b-button>
+              </b-form-group>
             </b-col>
           </b-row>
+        </b-col>
+      </b-row>
+      <b-row align-h="center">
+        <b-col cols="10">
+          <b-table head-variant="danger" striped hover :items="assignments"></b-table>
         </b-col>
       </b-row>
     </b-container>
@@ -57,7 +55,24 @@ import Multiselect from "vue-multiselect";
 export default {
   data() {
     return {
-      value: {}
+      fields: [
+        {
+          key: "last_name",
+          sortable: true
+        },
+        {
+          key: "first_name",
+          sortable: false
+        },
+        {
+          key: "age",
+          label: "Person age",
+          sortable: true,
+          // Variant applies to the whole column, including the header and footer
+          variant: "danger"
+        }
+      ],
+      value: null
     };
   },
   components: {
@@ -92,10 +107,12 @@ export default {
     },
     async userAssignments() {
       setTimeout(() => {
-        this.$store.dispatch("assignments", this.value.id);
+        this.$store.dispatch("assignments", this.value);
       }, 100);
     }
   }
 };
 </script>
 
+<style lang="css">
+</style>
