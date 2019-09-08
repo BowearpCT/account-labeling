@@ -10,6 +10,7 @@
               <h1>assignment management</h1>
             </b-col>
           </b-row>
+          <b-row></b-row>
           <b-row>
             <b-col cols="5">
               <b-form-group></b-form-group>
@@ -32,7 +33,7 @@
             </b-col>
             <b-col cols="1">
               <b-form-group>
-                <b-button variant="danger">+</b-button>
+                <b-button @click="goAssignment" variant="danger">+</b-button>
               </b-form-group>
             </b-col>
           </b-row>
@@ -55,6 +56,13 @@ import Multiselect from "vue-multiselect";
 export default {
   data() {
     return {
+      selected: "radio1",
+      options: [
+        { text: "Radio 1", value: "radio1" },
+        { text: "Radio 3", value: "radio2" },
+        { text: "Radio 3 (disabled)", value: "radio3", disabled: true },
+        { text: "Radio 4", value: "radio4" }
+      ],
       fields: [
         {
           key: "last_name",
