@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="dark" variant="danger">
+    <b-navbar toggleable="lg" type="dark">
       <b-navbar-brand href="#" @click="redirectDash">Source Labeling</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -44,3 +44,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.navbar {
+  background-color: #ba0020;
+}
+</style>
