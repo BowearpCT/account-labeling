@@ -56,36 +56,211 @@ const findAssignments = async () => {
         model: userModel,
         as: 'assignTo',
         attributes: ['id', 'name']
-      }
+      },
+      {
+        model: labelModel
+      },
     ]
   })
   return assignments
 }
 
-const findAssignmentByUserId = async userId => {
-  const assignments = await assignmentModel.findAll({
-    where: {
-      "$assignTo.id$": userId
-    },
-    include: [
-      {
-        model: labelModel
-      },
-      { model: channelModel },
-      {
-        model: userModel,
-        as: 'assignBy',
-        attributes: ['id', 'name']
-      },
-      {
-        model: userModel,
-        as: 'assignTo',
-        attributes: ['id', 'name']
-      }
-    ]
-  })
+const findAssignmentFilter = async filter => {
+  let assignments
+
+  if (filter) {
+    console.log("in filter",filter.userId,filter.channel,filter.labelId)
+    if (filter.userId && filter.channel && filter.labelId) {
+      assignments = await findAssignmentsByUserChannelCategory(
+        filter.userId,
+        filter.channel,
+        filter.labelId
+      );
+    }
+    else if (filter.channel && filter.userId) {
+      assignments = await findAssignmentsByUserAndChannel(filter.userId, filter.channel)
+    }
+    else if (filter.labelId && filter.userId) {
+      assignments = await findAssignmentsByUserAndCategory(filter.userId, filter.labelId)
+    }
+    else if (filter.labelId && filter.channel) {
+      assignments = await findAssignmentsByCategoryAndChannel(filter.labelId, filter.channel)
+    }
+    else if (filter.labelId){
+      assignments = await findAssignmentsByLabelId(filter.labelId)
+    }
+    else if (filter.userId){
+      assignments = await findAssignmentsByUserId(filter.userId)
+    } 
+    else if (filter.channel){
+      assignments = await findAssignmentsByChannel(filter.channel)
+    }
+    else {
+      assignments = await findAssignments()
+    }
+  }
+  console.log(assignments)
   return assignments
 }
+
+const findAssignmentsByUserId = userId => assignmentModel.findAll({
+  where: {
+    assign_to : userId
+  },
+  include: [
+    {
+      model: labelModel
+    },
+    { model: channelModel },
+    {
+      model: userModel,
+      as: 'assignBy',
+      attributes: ['id', 'name']
+    },
+    {
+      model: userModel,
+      as: 'assignTo',
+      attributes: ['id', 'name']
+    },
+  ]
+})
+
+const findAssignmentsByChannel = channel => assignmentModel.findAll({
+  where: {
+    "$channel.channel_name$": channel
+  },
+  include: [
+    {
+      model: labelModel
+    },
+    { model: channelModel },
+    {
+      model: userModel,
+      as: 'assignBy',
+      attributes: ['id', 'name']
+    },
+    {
+      model: userModel,
+      as: 'assignTo',
+      attributes: ['id', 'name']
+    }
+  ]
+})
+
+const findAssignmentsByLabelId = labelId => assignmentModel.findAll({
+  where: {
+    "$label.id$": labelId
+  },
+  include: [
+    {
+      model: labelModel
+    },
+    { model: channelModel },
+    {
+      model: userModel,
+      as: 'assignBy',
+      attributes: ['id', 'name']
+    },
+    {
+      model: userModel,
+      as: 'assignTo',
+      attributes: ['id', 'name']
+    }
+  ]
+})
+
+const findAssignmentsByCategoryAndChannel = (labelId, channel) => assignmentModel.findAll({
+  where: {
+    "$label.id$": labelId,
+    "$channel.channel_name$": channel
+  },
+  include: [
+    {
+      model: labelModel
+    },
+    { model: channelModel },
+    {
+      model: userModel,
+      as: 'assignBy',
+      attributes: ['id', 'name']
+    },
+    {
+      model: userModel,
+      as: 'assignTo',
+      attributes: ['id', 'name']
+    }
+  ]
+})
+
+const findAssignmentsByUserAndCategory = (userId, labelId) => assignmentModel.findAll({
+  where: {
+    assign_to : userId,
+    "$label.id$": labelId
+  },
+  include: [
+    {
+      model: labelModel
+    },
+    { model: channelModel },
+    {
+      model: userModel,
+      as: 'assignBy',
+      attributes: ['id', 'name']
+    },
+    {
+      model: userModel,
+      as: 'assignTo',
+      attributes: ['id', 'name']
+    }
+  ]
+})
+
+const findAssignmentsByUserAndChannel = (userId, channel) => assignmentModel.findAll({
+  where: {
+    assign_to: userId,
+    "$channel.channel_name$": channel
+  },
+  include: [
+    {
+      model: labelModel
+    },
+    { model: channelModel },
+    {
+      model: userModel,
+      as: 'assignBy',
+      attributes: ['id', 'name']
+    },
+    {
+      model: userModel,
+      as: 'assignTo',
+      attributes: ['id', 'name']
+    }
+  ]
+})
+
+const findAssignmentsByUserChannelCategory = (userId, channel, labelId) => assignmentModel.findAll({
+  where: {
+    assign_to: userId,
+    "$label.id$": labelId,
+    "$channel.channel_name$": channel
+  },
+  include: [
+    {
+      model: labelModel
+    },
+    { model: channelModel },
+    {
+      model: userModel,
+      as: 'assignBy',
+      attributes: ['id', 'name']
+    },
+    {
+      model: userModel,
+      as: 'assignTo',
+      attributes: ['id', 'name']
+    }
+  ]
+})
 
 const findAncestorLabels = async parentIdInput => {
   try {
@@ -166,11 +341,11 @@ const findAccountsForLabel = (channelId, categoryId, numberOfAccounts) => {
 }
 
 const findAccountLabelling = accountReservedId => accountLabellingModel.find({
-    where:{
-      "$account_booking.account_id$": accountReservedId
-    },
-    include: [ {model:accountBookingModel} ]
-  })
+  where: {
+    "$account_booking.account_id$": accountReservedId
+  },
+  include: [{ model: accountBookingModel }]
+})
 
 const findUserByRoleId = roleId => userModel.findAll({
   where: { role_id: roleId },
@@ -227,7 +402,7 @@ module.exports = {
   findChannelByName,
   findAccountsForLabel,
   findAssignmentByTimeCreate,
-  findAssignmentByUserId,
+  findAssignmentFilter,
   findDescendentLabels,
   findAncestorLabels,
   findAssignments,
