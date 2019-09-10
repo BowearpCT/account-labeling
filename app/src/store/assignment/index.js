@@ -64,11 +64,13 @@ export default {
     },
     async fetchAssignments({ commit }, payload) {
       try {
-        let assignments = {};
+        let assignments;
         axios.defaults.headers.common["Authorization"] = this.getters.jwtToken;
         if (payload) {
+          let userId = ""
+          if(payload.userId) userId = payload.userId.id
           assignments = await axios.get(
-            "http://localhost:3000/api/assignment/user/" + payload.id
+            `http://localhost:3000/api/assignment/filter/?userId=${userId}&channel=${payload.channel}&labelId=${payload.labelId}`
           );
         } else {
           assignments = await axios.get("http://localhost:3000/api/assignment");
