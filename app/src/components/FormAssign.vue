@@ -92,7 +92,12 @@
       <br />
       <b-row>
         <b-col md="12">
-          <b-button type="submit" @click="showModal" size="lg" variant="danger">submit</b-button>
+          <b-button
+            type="submit"
+            @click="showModal"
+            size="lg"
+            style="background-color :#ba0020; "
+          >submit</b-button>
         </b-col>
       </b-row>
     </b-form>
