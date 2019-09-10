@@ -2,11 +2,15 @@ const axios = require("axios");
 export default {
   state: {
     category: null,
+    categories: null,
     labels: [],
     selectedLabel: null,
     suggestionLabel: null
   },
   getters: {
+    categories: function (state) {
+      return state.categories;
+    },
     labels: function (state) {
       return state.labels;
     },
@@ -21,6 +25,12 @@ export default {
     }
   },
   mutations: {
+    setCategories: function (state, payload) {
+      state.categories = payload;
+    },
+    clearCategories: function (state) {
+      state.categories = null;
+    },
     setLabels: function (state, payload) {
       state.labels = payload;
     },
@@ -68,7 +78,18 @@ export default {
         throw error;
       }
     },
-    async insertLabelling({}, payload) {
+    async fetchCategories({ commit }) {
+      axios.defaults.headers.common["Authorization"] = this.getters.jwtToken;
+      try {
+        const categories = await axios.get(
+          "http://localhost:3000/api/label/category"
+        );
+        commit("setCategories", categories.data);
+      } catch (error) {
+        throw error;
+      }
+    },
+    async insertLabelling({ }, payload) {
       const JWTTOKEN = this.getters.jwtToken;
       axios.defaults.headers.common["Authorization"] = JWTTOKEN;
       try {
