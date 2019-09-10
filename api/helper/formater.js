@@ -17,7 +17,7 @@ const formatLabellingReservation = (accounts, assignment) => {
 const formatAccountLabellings = (reservedId, labels) => {
   console.log("=== START FORMAT ===")
   let labellingFormat = []
-  labels.forEach( label => {
+  labels.forEach(label => {
     let labelling = {}
     labelling.booking_id = reservedId
     labelling.label_id = label.id
@@ -35,11 +35,10 @@ const formatAssignmentProgress = (assignments, progress) => {
     assignmentObj.channel = assignment.channel.channel_name
     assignmentObj.assignBy = assignment.assignBy.name
     assignmentObj.assignTo = assignment.assignTo.name
-    assignmentObj.progress = progress[index]
+    assignmentObj.progress = progress[index] + "/" + assignment.total
     assignmentObj.total = assignment.total
     assignmentFormat.push(assignmentObj);
   })
-  console.log(assignmentFormat)
   return assignmentFormat
 }
 
