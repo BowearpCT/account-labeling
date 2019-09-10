@@ -11,7 +11,7 @@ const {
   findAccountsForLabel,
   reserveLabelling,
   findAssignments,
-  findAssignmentByUserId,
+  findAssignmentFilter,
   findAssignmentProgress
 } = require("../helper/query");
 
@@ -53,9 +53,9 @@ router.get("/assignment", async (req, res) => {
 
 
 
-router.get("/assignment/user/:userId", async (req, res) => {
+router.get("/assignment/filter/", async (req, res) => {
   try {
-    const assignments = await findAssignmentByUserId(req.params.userId);
+    const assignments = await findAssignmentFilter(req.query);
     const progress = await findAssignmentProgress(assignments)
     const assignmentProgress = await formatAssignmentProgress(assignments, progress)
     res.send(assignmentProgress)
