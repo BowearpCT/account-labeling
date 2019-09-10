@@ -6,34 +6,70 @@
       <b-row align-h="start">
         <b-col offset="1" cols="10">
           <b-row>
-            <b-col cols="5">
+            <b-col>
               <h1>assignment management</h1>
             </b-col>
           </b-row>
-          <b-row></b-row>
+          <hr />
           <b-row>
-            <b-col cols="5">
-              <b-form-group></b-form-group>
+            <b-col>
+              <b-form-group>
+                <label>
+                  <h6>category</h6>
+                </label>
+                <b-form-radio-group id="radio-group-2" v-model="labelId" name="radio-sub-component">
+                  <b-form-radio value="">all</b-form-radio>
+                  <b-form-radio
+                    v-for="(category, index) in categories"
+                    :key="index"
+                    :value="category.id"
+                  >{{category.name}}</b-form-radio>
+                </b-form-radio-group>
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <b-form-group>
+                <label>
+                  <span>
+                    <h6>channel</h6>
+                  </span>
+                </label>
+                <b-form-radio-group
+                  id="radio-group-2"
+                  v-model="channel"
+                  :options="channels"
+                  name="radio-options-2"
+                ></b-form-radio-group>
+              </b-form-group>
             </b-col>
           </b-row>
           <b-row align-h="between">
-            <b-col cols="3">
-              <b-form-group>
-                <multiselect
-                  @select="userAssignments"
-                  @remove="userAssignments"
-                  v-model="value"
-                  :options="users"
-                  placeholder="Filter user"
-                  label="name"
-                  track-by="name"
-                  :searchable="false"
-                ></multiselect>
-              </b-form-group>
+            <b-col cols="11">
+              <b-row align-h="start">
+                <b-col cols="5"></b-col>
+                <b-col cols="5"></b-col>
+                <b-col cols="1"></b-col>
+              </b-row>
+              <b-row align-h="start">
+                <b-col cols="3">
+                  <b-form-group>
+                    <multiselect
+                      v-model="value"
+                      :options="users"
+                      placeholder="Filter user"
+                      label="name"
+                      track-by="name"
+                      :searchable="false"
+                    ></multiselect>
+                  </b-form-group>
+                </b-col>
+              </b-row>
             </b-col>
             <b-col cols="1">
               <b-form-group>
-                <b-button @click="goAssignment" variant="danger">+</b-button>
+                <b-button @click="goAssignment" style="background-color:#ba0020;">add</b-button>
               </b-form-group>
             </b-col>
           </b-row>
@@ -41,7 +77,7 @@
       </b-row>
       <b-row align-h="center">
         <b-col cols="10">
-          <b-table head-variant="danger" striped hover :items="assignments"></b-table>
+          <b-table striped hover :fields="fields" :items="assignments"></b-table>
         </b-col>
       </b-row>
     </b-container>
@@ -56,31 +92,40 @@ import Multiselect from "vue-multiselect";
 export default {
   data() {
     return {
-      selected: "radio1",
-      options: [
-        { text: "Radio 1", value: "radio1" },
-        { text: "Radio 3", value: "radio2" },
-        { text: "Radio 3 (disabled)", value: "radio3", disabled: true },
-        { text: "Radio 4", value: "radio4" }
+      channel: "",
+      labelId: "",
+      value: "",
+      channels: [
+        { text: "all", value: "" },
+        { text: "facebook", value: "facebook" },
+        { text: "instagram", value: "instagram" },
+        { text: "twitter", value: "twitter" },
+        { text: "youtube", value: "youtube" }
       ],
       fields: [
         {
-          key: "last_name",
+          key: "id",
           sortable: true
         },
         {
-          key: "first_name",
-          sortable: false
+          key: "category",
+          sortable: true
         },
         {
-          key: "age",
-          label: "Person age",
-          sortable: true,
-          // Variant applies to the whole column, including the header and footer
-          variant: "danger"
+          key: "channel",
+          sortable: true
+        },
+        {
+          key: "assignTo",
+          label: "assign to",
+          sortable: true
+        },
+        {
+          key: "progress",
+          label: "progress",
+          sortable: true
         }
-      ],
-      value: null
+      ]
     };
   },
   components: {
@@ -97,13 +142,31 @@ export default {
     },
     users() {
       return this.$store.getters.users;
+    },
+    categories() {
+      return this.$store.getters.categories;
+    }
+  },
+  watch: {
+    value() {
+      this.userAssignments();
+    },
+    labelId() {
+      this.userAssignments();
+    },
+    channel() {
+      this.userAssignments();
     }
   },
   created() {
     this.getusers();
     this.getAssignments();
+    this.getCategories();
   },
   methods: {
+    getCategories() {
+      this.$store.dispatch("fetchCategories");
+    },
     getAssignments() {
       this.$store.dispatch("assignments");
     },
@@ -113,14 +176,25 @@ export default {
     goAssignment() {
       this.$router.push("/assign");
     },
-    async userAssignments() {
+    userAssignments() {
       setTimeout(() => {
-        this.$store.dispatch("assignments", this.value);
+        this.$store.dispatch("assignments", {
+          userId: this.value ,
+          labelId: this.labelId ,
+          channel: this.channel 
+        });
       }, 100);
     }
   }
 };
 </script>
 
-<style lang="css">
+<style lang="scss" >
+h1,
+h6 {
+  text-align: left;
+}
+.form-group {
+  text-align: left;
+}
 </style>
