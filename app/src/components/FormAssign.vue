@@ -108,8 +108,20 @@
         <h6>total : {{ form.numberOfAccout }}</h6>
         <h6>channel : {{form.channel}}</h6>
       </div>
-      <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Reject</b-button>
-      <b-button class="mt-2" variant="outline-info" block @click="assignment">Confirm</b-button>
+      <b-row align-h="between">
+        <b-col>
+          <b-button class="mt-3" block @click="hideModal" variant="outline-danger">Reject</b-button>
+        </b-col>
+        <b-col>
+          <b-button
+            class="mt-3"
+            block
+            @click="assignment"
+            variant="danger"
+            style="background-color: #ba0020;"
+          >Confirm</b-button>
+        </b-col>
+      </b-row>
     </b-modal>
   </div>
 </template>
@@ -176,3 +188,11 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.btn {
+  .btn-outline-danger {
+    background-color: #ba0020;
+  }
+}
+</style>
