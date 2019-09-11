@@ -37,6 +37,7 @@ const formatAssignmentProgress = (assignments, progress) => {
     assignmentObj.assignTo = assignment.assignTo.name
     assignmentObj.progress = progress[index] + "/" + assignment.total
     assignmentObj.total = assignment.total
+    assignmentObj.status = assignment.status
     assignmentFormat.push(assignmentObj);
   })
   return assignmentFormat
