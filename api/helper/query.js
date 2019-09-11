@@ -16,7 +16,8 @@ const createAssignment = assignment => {
     assign_by: assignment.admin,
     assign_to: assignment.user,
     total: assignment.total,
-    id_channel: assignment.channel_id
+    id_channel: assignment.channel_id,
+    status: "enable"
   })
   return createResult;
 }
@@ -69,7 +70,7 @@ const findAssignmentFilter = async filter => {
   let assignments
 
   if (filter) {
-    console.log("in filter",filter.userId,filter.channel,filter.labelId)
+    console.log("in filter", filter.userId, filter.channel, filter.labelId)
     if (filter.userId && filter.channel && filter.labelId) {
       assignments = await findAssignmentsByUserChannelCategory(
         filter.userId,
@@ -86,13 +87,13 @@ const findAssignmentFilter = async filter => {
     else if (filter.labelId && filter.channel) {
       assignments = await findAssignmentsByCategoryAndChannel(filter.labelId, filter.channel)
     }
-    else if (filter.labelId){
+    else if (filter.labelId) {
       assignments = await findAssignmentsByLabelId(filter.labelId)
     }
-    else if (filter.userId){
+    else if (filter.userId) {
       assignments = await findAssignmentsByUserId(filter.userId)
-    } 
-    else if (filter.channel){
+    }
+    else if (filter.channel) {
       assignments = await findAssignmentsByChannel(filter.channel)
     }
     else {
@@ -105,7 +106,7 @@ const findAssignmentFilter = async filter => {
 
 const findAssignmentsByUserId = userId => assignmentModel.findAll({
   where: {
-    assign_to : userId
+    assign_to: userId
   },
   include: [
     {
@@ -194,7 +195,7 @@ const findAssignmentsByCategoryAndChannel = (labelId, channel) => assignmentMode
 
 const findAssignmentsByUserAndCategory = (userId, labelId) => assignmentModel.findAll({
   where: {
-    assign_to : userId,
+    assign_to: userId,
     "$label.id$": labelId
   },
   include: [
@@ -394,6 +395,28 @@ const findAssignmentProgress = async assignments => {
   return progress
 }
 
+const deleteAssignment = async assignmentId => {
+  try {
+    await accountBookingModel.destroy({
+      where: {
+        assignment_id: assignmentId,
+        status: null
+      }
+    })
+    await assignmentModel.update(
+      {
+        status: "disable",
+      },
+      {
+        where: {
+          id: assignmentId
+        }
+      });
+  } catch (error) {
+    console.log(error)
+    return error
+  }
+}
 
 module.exports = {
   findUserByRoleId,
@@ -415,4 +438,5 @@ module.exports = {
   insertLabellings,
   createAssignment,
   reserveLabelling,
+  deleteAssignment
 }
