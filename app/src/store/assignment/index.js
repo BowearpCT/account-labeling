@@ -28,6 +28,16 @@ export default {
     }
   },
   actions: {
+    async deleteAssignment({ }, payload) {
+      axios.defaults.headers.common["Authorization"] = this.getters.jwtToken;
+      try {
+        await axios.delete(
+          `http://localhost:3000/api/assignment/${payload}`
+        );
+      } catch (error) {
+        throw error;
+      }
+    },
     async assignment({ commit, dispatch }, payload) {
       try {
         commit("setAssignment", payload);
@@ -68,7 +78,7 @@ export default {
         axios.defaults.headers.common["Authorization"] = this.getters.jwtToken;
         if (payload) {
           let userId = ""
-          if(payload.userId) userId = payload.userId.id
+          if (payload.userId) userId = payload.userId.id
           assignments = await axios.get(
             `http://localhost:3000/api/assignment/filter/?userId=${userId}&channel=${payload.channel}&labelId=${payload.labelId}`
           );
