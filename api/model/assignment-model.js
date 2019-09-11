@@ -45,6 +45,9 @@ module.exports = db.sequelize.define(
     },
     total: {
       type: Sequelize.INTEGER
+    },
+    status: {
+      type: Sequelize.STRING
     }
   },
   {
