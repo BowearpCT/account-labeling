@@ -5,24 +5,19 @@
     <br />
     <br />
     <b-container fluid>
-      <b-row>
-        <b-col offset-md="2" md="8">
+      <b-row align-h="start">
+        <b-col offset="1" cols="10">
           <b-row>
-            <h3>Dashboard</h3>
-          </b-row>
-          <hr />
-          <b-row v-show="assignments">
-            <b-col
-              v-for="(assignment, index) in assignments"
-              :key="index"
-              sm="12"
-              md="6"
-              lg="4"
-              xl="4"
-            >
-              <Progress v-bind:assignment="{assignment}"></Progress>
+            <b-col>
+              <h1>Assignment</h1>
             </b-col>
           </b-row>
+          <hr />
+        </b-col>
+      </b-row>
+      <b-row align-h="center">
+        <b-col cols="10">
+          <assignmentTable />
         </b-col>
       </b-row>
     </b-container>
@@ -34,17 +29,24 @@
 import Nav from "@/components/Nav.vue";
 import Progress from "@/components/Progress.vue";
 import Multiselect from "vue-multiselect";
+import assignmentTable from "@/components/assignmentTable.vue";
 export default {
   data() {
     return {
       value: {},
-      options: []
+      options: [],
+      userId: {
+        id: null
+      },
+      labelId: "",
+      channel: ""
     };
   },
   components: {
     Nav,
     Progress,
-    Multiselect
+    Multiselect,
+    assignmentTable
   },
   computed: {
     assignments() {
@@ -59,7 +61,14 @@ export default {
   },
   methods: {
     getAssignments() {
-      this.$store.dispatch("assignments", this.user.id);
+      // this.$store.dispatch("assignments", this.user.id);
+      console.log(this.user.id);
+      this.userId.id = this.user.id;
+      this.$store.dispatch("assignments", {
+        userId: this.userId,
+        labelId: this.labelId,
+        channel: this.channel
+      });
     },
     userAssignments() {
       setTimeout(() => {

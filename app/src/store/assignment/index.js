@@ -31,9 +31,7 @@ export default {
     async deleteAssignment({ }, payload) {
       axios.defaults.headers.common["Authorization"] = this.getters.jwtToken;
       try {
-        await axios.delete(
-          `http://localhost:3000/api/assignment/${payload}`
-        );
+        await axios.delete(`http://localhost:3000/api/assignment/${payload}`);
       } catch (error) {
         throw error;
       }

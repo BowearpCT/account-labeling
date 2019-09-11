@@ -7,7 +7,7 @@
         <b-col offset="1" cols="10">
           <b-row>
             <b-col>
-              <h1>assignment management</h1>
+              <h1>Assignment Management</h1>
             </b-col>
           </b-row>
           <hr />
@@ -18,7 +18,7 @@
                   <h6>category</h6>
                 </label>
                 <b-form-radio-group id="radio-group-2" v-model="labelId" name="radio-sub-component">
-                  <b-form-radio value="">all</b-form-radio>
+                  <b-form-radio value>all</b-form-radio>
                   <b-form-radio
                     v-for="(category, index) in categories"
                     :key="index"
@@ -77,7 +77,7 @@
       </b-row>
       <b-row align-h="center">
         <b-col cols="10">
-          <b-table striped hover :fields="fields" :items="assignments"></b-table>
+          <tableComponent />
         </b-col>
       </b-row>
     </b-container>
@@ -89,6 +89,7 @@
 import Nav from "@/components/Nav.vue";
 import Progress from "@/components/Progress.vue";
 import Multiselect from "vue-multiselect";
+import tableComponent from "@/components/assignmentTable.vue";
 export default {
   data() {
     return {
@@ -122,16 +123,17 @@ export default {
         },
         {
           key: "progress",
-          label: "progress",
-          sortable: true
-        }
+          label: "progress"
+        },
+        "actions"
       ]
     };
   },
   components: {
     Nav,
     Progress,
-    Multiselect
+    Multiselect,
+    tableComponent
   },
   computed: {
     assignments() {
@@ -179,9 +181,9 @@ export default {
     userAssignments() {
       setTimeout(() => {
         this.$store.dispatch("assignments", {
-          userId: this.value ,
-          labelId: this.labelId ,
-          channel: this.channel 
+          userId: this.value,
+          labelId: this.labelId,
+          channel: this.channel
         });
       }, 100);
     }
