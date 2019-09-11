@@ -1,7 +1,7 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="dark">
-      <b-navbar-brand href="#" @click="redirectDash">Source Labeling</b-navbar-brand>
+    <b-navbar toggleable="lg">
+      <b-navbar-brand style="color:white;" href="#" @click="redirectDash">Source Labeling</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -11,9 +11,9 @@
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->
             <template slot="button-content">
-              <em>{{ user.username }}</em>
+              <em style="color:white;">{{ user.username }}</em>
             </template>
-            <b-dropdown-item href="#">Profile</b-dropdown-item>
+            <b-dropdown-item style="color:white;" href="#">Profile</b-dropdown-item>
             <b-dropdown-item @click="signout">logout</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -48,5 +48,6 @@ export default {
 <style lang="scss">
 .navbar {
   background-color: #ba0020;
+  color: white;
 }
 </style>
