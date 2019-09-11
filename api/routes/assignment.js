@@ -12,7 +12,8 @@ const {
   reserveLabelling,
   findAssignments,
   findAssignmentFilter,
-  findAssignmentProgress
+  findAssignmentProgress,
+  deleteAssignment
 } = require("../helper/query");
 
 router.post("/assignment", async (req, res) => {
@@ -45,19 +46,29 @@ router.get("/assignment", async (req, res) => {
     const assignments = await findAssignments()
     const progress = await findAssignmentProgress(assignments)
     const assignmentProgress = await formatAssignmentProgress(assignments, progress)
+    console.log(assignments)
     res.send(assignmentProgress)
   } catch (error) {
     res.send(error)
   }
 })
 
-
+router.delete("/assignment/:id", async (req, res) => {
+  console.log(req.params)
+  try {
+    const result = await deleteAssignment(req.params.id);
+    res.send(result)
+  } catch (error) {
+    res.send(error)
+  }
+})
 
 router.get("/assignment/filter/", async (req, res) => {
   try {
     const assignments = await findAssignmentFilter(req.query);
     const progress = await findAssignmentProgress(assignments)
     const assignmentProgress = await formatAssignmentProgress(assignments, progress)
+    console.log(assignmentProgress)
     res.send(assignmentProgress)
   } catch (error) {
     res.send(error)
