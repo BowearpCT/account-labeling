@@ -71,7 +71,7 @@
             </b-col>
             <b-col cols="1">
               <b-form-group>
-                <b-button @click="goAssignment" size="lg" style="background-color:#ba0020; border-radius: 25px;">+</b-button>
+                <b-button @click="goAssignment" size="lg" style="background-color:#335377; border-radius: 25px;">+</b-button>
               </b-form-group>
             </b-col>
           </b-row>
