@@ -96,7 +96,9 @@ export default {
 
 <style lang="scss">
 thead {
-  background-color: #ba0020;
-  color: white;
+  background-color: white;
+  color: black;
+  padding: 2px;
+  box-shadow: 1px 1px 1px 1px rgb(214, 212, 212);
 }
 </style>
