@@ -47,7 +47,7 @@ export default {
 
 <style lang="scss">
 .navbar {
-  background-color: #ba0020;
+  background-color: #101820;
   color: white;
 }
 </style>
