@@ -19,17 +19,9 @@ export default {
   },
   actions: {
     async fetcherUsers({ commit }) {
-      const JWTTOKEN = this.getters.jwtToken;
-      const config = {
-        headers: {
-          Authorization: JWTTOKEN
-        }
-      };
+      axios.defaults.headers.common["Authorization"] = this.getters.jwtToken;
       try {
-        var usersResult = await axios.get(
-          "http://localhost:3000/api/user",
-          config
-        );
+        const usersResult = await axios.get("http://localhost:3000/api/user");
         commit("users", usersResult.data);
       } catch (error) {
         throw error;

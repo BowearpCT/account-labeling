@@ -26,8 +26,8 @@ export default {
         var token = this.getters.jwtToken;
         var user = await VueJwtDecode.decode(token);
         commit("user", user);
-        commit("success", "login success! ");
         if (user) {
+          commit("success", "login success! ");
           if (user.role == "2") {
             return router.push("/user");
           } else {
@@ -41,7 +41,7 @@ export default {
       } finally {
         setTimeout(() => {
           commit("clear");
-        }, 5000);
+        }, 2000);
       }
     },
     loginFetcher: async ({ commit }, payload) => {
@@ -63,6 +63,9 @@ export default {
       commit("clearAssignments");
       commit("clear");
       commit("resetIndex");
+      commit("clearAccounts");
+      commit("clearUsers");
+      commit("clearCategories");
     }
   }
 };

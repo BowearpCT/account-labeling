@@ -5,9 +5,8 @@
         <b-img
           src="https://marketingmagazine.com.my/wp-content/uploads/2018/09/wisesight6.png"
           fluid
-          alt=""
-        >
-        </b-img>
+          alt
+        ></b-img>
       </b-col>
     </b-row>
     <b-form @submit.stop.prevent>
@@ -15,20 +14,13 @@
         <b-col>
           <b-form-group
             id="fieldset-horizontal"
-            description=""
+            description
             label-align-md="left"
             label-cols-lg="3"
             label="username"
             label-for="input-horizontal"
           >
-            <b-form-input
-              type="text"
-              id="input-horizontal"
-              required
-              v-model="username"
-              trim
-            >
-            </b-form-input>
+            <b-form-input type="text" id="input-horizontal" required v-model="username" trim></b-form-input>
           </b-form-group>
         </b-col>
       </b-row>
@@ -36,28 +28,19 @@
         <b-col>
           <b-form-group
             id="fieldset-horizontal"
-            description=""
+            description
             label-align-md="left"
             label-cols-lg="3"
             label="password"
             label-for="input-horizontal"
           >
-            <b-form-input
-              id="input"
-              type="password"
-              required
-              v-model="password"
-              trim
-            >
-            </b-form-input>
+            <b-form-input id="input" type="password" required v-model="password" trim></b-form-input>
           </b-form-group>
         </b-col>
       </b-row>
       <b-row>
         <b-col md="9">
-          <b-button type="submit" @click="signIn" size="md" variant="danger">
-            Login
-          </b-button>
+          <b-button type="submit" @click="signIn" size="md" style="background-color:#ba0020;">Login</b-button>
         </b-col>
       </b-row>
     </b-form>

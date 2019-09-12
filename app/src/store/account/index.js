@@ -3,7 +3,7 @@ export default {
   state: {
     accounts: null,
     currentAccount: null,
-    index:0
+    index: 0
   },
   getters: {
     accounts: function (state) {
@@ -12,7 +12,7 @@ export default {
     currentAccount: function (state) {
       return state.currentAccount;
     },
-    index: function(state){
+    index: function (state) {
       return state.index
     }
   },
@@ -20,7 +20,7 @@ export default {
     setAccounts: function (state, payload) {
       state.accounts = payload;
     },
-    clearAccount: function (state) {
+    clearAccounts: function (state) {
       state.accounts = null;
     },
     setCurrentAccount: function (state, payload) {
@@ -29,13 +29,13 @@ export default {
     clearCurrentAccount: function (state) {
       state.currentAccount = null;
     },
-    increateIndex: function(state){
-      state.index += 1 ;
+    increateIndex: function (state) {
+      state.index += 1;
     },
-    decreateIndex: function(state){
+    decreateIndex: function (state) {
       state.index -= 1;
     },
-    resetIndex: function(state){
+    resetIndex: function (state) {
       state.index = 0;
     }
   },
