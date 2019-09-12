@@ -13,6 +13,11 @@
           <hr />
           <b-row>
             <b-col>
+              <h3>Filter</h3>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
               <b-form-group>
                 <label>
                   <h6>category</h6>
@@ -32,9 +37,7 @@
             <b-col>
               <b-form-group>
                 <label>
-                  <span>
                     <h6>channel</h6>
-                  </span>
                 </label>
                 <b-form-radio-group
                   id="radio-group-2"
@@ -43,6 +46,11 @@
                   name="radio-options-2"
                 ></b-form-radio-group>
               </b-form-group>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <h6>user</h6>
             </b-col>
           </b-row>
           <b-row align-h="between">
@@ -54,22 +62,16 @@
               </b-row>
               <b-row align-h="start">
                 <b-col cols="3">
-                  <b-form-group>
-                    <multiselect
-                      v-model="value"
-                      :options="users"
-                      placeholder="Filter user"
-                      label="name"
-                      track-by="name"
-                      :searchable="false"
-                    ></multiselect>
-                  </b-form-group>
+                  <b-form-select v-model="value" class="mb-3">
+                    <option value="">select all</option>
+                    <option v-for="(user, index) in users" :key="index" :value="user" >{{user.name}}</option>
+                  </b-form-select>
                 </b-col>
               </b-row>
             </b-col>
             <b-col cols="1">
               <b-form-group>
-                <b-button @click="goAssignment" style="background-color:#ba0020;">add</b-button>
+                <b-button @click="goAssignment" size="lg" style="background-color:#ba0020; border-radius: 25px;">+</b-button>
               </b-form-group>
             </b-col>
           </b-row>
@@ -102,30 +104,6 @@ export default {
         { text: "instagram", value: "instagram" },
         { text: "twitter", value: "twitter" },
         { text: "youtube", value: "youtube" }
-      ],
-      fields: [
-        {
-          key: "id",
-          sortable: true
-        },
-        {
-          key: "category",
-          sortable: true
-        },
-        {
-          key: "channel",
-          sortable: true
-        },
-        {
-          key: "assignTo",
-          label: "assign to",
-          sortable: true
-        },
-        {
-          key: "progress",
-          label: "progress"
-        },
-        "actions"
       ]
     };
   },
@@ -151,6 +129,7 @@ export default {
   },
   watch: {
     value() {
+      console.log(this.value)
       this.userAssignments();
     },
     labelId() {
@@ -166,14 +145,14 @@ export default {
     this.getCategories();
   },
   methods: {
+    getusers() {
+      this.$store.dispatch("fetcherUsers");
+    },
     getCategories() {
       this.$store.dispatch("fetchCategories");
     },
     getAssignments() {
       this.$store.dispatch("assignments");
-    },
-    getusers() {
-      this.$store.dispatch("fetcherUsers");
     },
     goAssignment() {
       this.$router.push("/assign");
@@ -192,11 +171,12 @@ export default {
 </script>
 
 <style lang="scss" >
-h1,
+h1,h3,
 h6 {
   text-align: left;
 }
 .form-group {
   text-align: left;
 }
+
 </style>
