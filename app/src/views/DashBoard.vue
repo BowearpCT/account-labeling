@@ -20,7 +20,7 @@
             <b-col>
               <b-form-group>
                 <label>
-                  <h6>category</h6>
+                  <h6><b>category</b></h6>
                 </label>
                 <b-form-radio-group id="radio-group-2" v-model="labelId" name="radio-sub-component">
                   <b-form-radio value>all</b-form-radio>
@@ -37,7 +37,7 @@
             <b-col>
               <b-form-group>
                 <label>
-                    <h6>channel</h6>
+                    <h6><b>channel</b></h6>
                 </label>
                 <b-form-radio-group
                   id="radio-group-2"
@@ -50,7 +50,7 @@
           </b-row>
           <b-row>
             <b-col>
-              <h6>user</h6>
+              <h6><b>user</b></h6>
             </b-col>
           </b-row>
           <b-row align-h="between">
