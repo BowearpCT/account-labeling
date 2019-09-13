@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <span class="badge" :style="color">
-      {{labelName}}
-    </span>
-  </div>
+  <span class="badge" :style="color">
+    {{labelName}}
+  </span>
 </template>
 
 <script>
