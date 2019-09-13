@@ -13,7 +13,9 @@
           <th v-if="assignment.status == 'enable'" scope="row">{{assignment.id}}</th>
           <td v-if="assignment.status == 'enable'">{{assignment.assignTo}}</td>
           <td v-if="assignment.status == 'enable'">{{assignment.category}}</td>
-          <td v-if="assignment.status == 'enable'">{{assignment.channel}}</td>
+          <td v-if="assignment.status == 'enable'">
+            <tag :channel="assignment.channel"></tag>
+          </td>
           <td v-if="assignment.status == 'enable'">{{assignment.progress}}</td>
           <td v-if="assignment.status == 'enable'">
             <button v-if="user.role==1" class="btn btn-sm" @click="showModal(assignment)">
@@ -49,12 +51,16 @@
 </template>
 
 <script>
+import tag from "./TagSocialmedia.vue"
 export default {
   data() {
     return {
       fields: ["id", "assign to", "category", "channel", "progress"],
       selectedAssignment: null
     };
+  },
+  components:{
+    tag
   },
   computed: {
     assignments() {
@@ -94,11 +100,11 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 thead {
   background-color: white;
   color: black;
   padding: 2px;
-  box-shadow: 1px 1px 1px 1px rgb(214, 212, 212);
+  box-shadow: 0.5px 0.5px 0.5px 0.5px rgb(214, 212, 212);
 }
 </style>
