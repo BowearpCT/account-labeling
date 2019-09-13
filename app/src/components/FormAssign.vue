@@ -36,10 +36,7 @@
             name="radio-sub-component"
             :state="$v.form.category.$dirty ? !$v.form.category.$error : null"
           >
-            <b-form-radio value="type of profile">Type of profile</b-form-radio>
-            <b-form-radio value="interest">Interest</b-form-radio>
-            <b-form-radio value="third">This one is Disabled</b-form-radio>
-            <b-form-radio :value="{ fourth: 4 }">This is the 4th radio</b-form-radio>
+            <b-form-radio v-for="(item, index) in categories" :key="index" :value="item.name">{{item.name}}</b-form-radio>
           </b-form-radio-group>
         </b-col>
       </b-row>
@@ -145,6 +142,9 @@ export default {
   computed: {
     users() {
       return this.$store.getters.users;
+    },
+    categories() {
+      return this.$store.getters.categories;
     }
   },
   validations: {
