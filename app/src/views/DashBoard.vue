@@ -170,13 +170,16 @@ export default {
 };
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 h1,h3,
 h6 {
   text-align: left;
 }
 .form-group {
   text-align: left;
+}
+span{
+  color: black;
 }
 
 </style>
