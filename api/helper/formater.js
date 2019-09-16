@@ -43,8 +43,17 @@ const formatAssignmentProgress = (assignments, progress) => {
   return assignmentFormat
 }
 
+const formatCategoryLabels = (category, labels) => {
+  let categoryLabels = {}
+  categoryLabels.id = category.id
+  categoryLabels.name = category.name
+  categoryLabels.labels = labels
+  return categoryLabels
+}
+
 module.exports = {
   formatLabellingReservation,
   formatAssignmentProgress,
-  formatAccountLabellings
+  formatAccountLabellings,
+  formatCategoryLabels
 }
