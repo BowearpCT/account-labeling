@@ -5,7 +5,8 @@ export default {
     categories: null,
     labels: [],
     selectedLabel: null,
-    suggestionLabel: null
+    suggestionLabel: null,
+    categoryLabels: null
   },
   getters: {
     categories: function (state) {
@@ -22,6 +23,9 @@ export default {
     },
     suggestionLabel: function (state) {
       return state.suggestionLabel;
+    },
+    categoryLabels: function(state) {
+      return state.categoryLabels;
     }
   },
   mutations: {
@@ -54,7 +58,13 @@ export default {
     },
     clearSuggestionLabel: function (state) {
       state.suggestionLabel = null;
-    }
+    },
+    setCategoryLabels: function (state, payload) {
+      state.categoryLabels = payload;
+    },
+    clearCategoryLabels: function (state) {
+      state.categoryLabels = null;
+    },
   },
   actions: {
     async labels({ commit, dispatch }, payload) {
@@ -98,6 +108,15 @@ export default {
           labels: payload.labels
         };
         await axios.post("http://localhost:3000/api/account/labelling", data);
+      } catch (error) {
+        throw error;
+      }
+    },
+    async fetchLabelsCategory({ commit }) {
+      axios.defaults.headers.common["Authorization"] = this.getters.jwtToken;
+      try {
+        const { data } = await axios.get("http://localhost:3000/api/labels");
+        commit("setCategoryLabels", data);
       } catch (error) {
         throw error;
       }

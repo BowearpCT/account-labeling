@@ -35,6 +35,9 @@ export default {
     decreateIndex: function (state) {
       state.index -= 1;
     },
+    setIndex: function (state, payload) {
+      state.index = payload;
+    },
     resetIndex: function (state) {
       state.index = 0;
     }

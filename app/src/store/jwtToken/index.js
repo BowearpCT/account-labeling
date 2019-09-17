@@ -66,6 +66,7 @@ export default {
       commit("clearAccounts");
       commit("clearUsers");
       commit("clearCategories");
+      commit("clearCategoryLabels");
     }
   }
 };
