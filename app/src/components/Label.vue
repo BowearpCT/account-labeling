@@ -28,10 +28,9 @@ export default {
   },
   methods:{
     AddLabelColor() {
-      this.color = this.colorList[this.level]
+      this.color = this.colorList[this.level-1]
     }
   },
-
 }
 </script>
 
