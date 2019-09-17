@@ -14,6 +14,12 @@ module.exports = db.sequelize.define(
     account_name: {
       type: Sequelize.STRING
     },
+    like_count: {
+      type: Sequelize.INTEGER
+    },
+    link_url: {
+      type: Sequelize.STRING
+    },
     channel_id: {
       type: Sequelize.STRING,
       references: {
