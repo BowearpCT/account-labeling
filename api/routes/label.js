@@ -1,27 +1,25 @@
 var express = require('express');
 var router = express.Router();
+const {formatCategoryLabels} = require("../helper/query")
 const {
   findCategoryLabels,
   findAncestorLabels,
   findDescendentLabels,
-  findLabelByName
+  findLabelByName,
+  findLabels
 } = require("../helper/query");
 
-router.get("/labels", (req, res) => {
-  accountModel.findAll({
-    where: {
-      "$labelings.account_id$": null
-    },
-    include: [{
-      model: labelingModel
-    }]
-  })
-    .then(accounts => {
-      res.json(accounts)
-    })
-    .catch(err => {
-      res.send("error :" + err)
-    })
+router.get("/labels", async (req, res) => {
+  try {
+    const categories = await findCategoryLabels();
+    console.log(categories)
+    const categorylabels = await findLabels(categories);
+    console.log(categorylabels)
+    console.log("=== close ===")
+    res.send(categorylabels)
+  } catch (error) {
+    res.send(error)
+  }
 })
 
 router.get("/label/descendents/id/:labelId", async (req, res) => {
