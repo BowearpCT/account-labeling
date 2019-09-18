@@ -14,6 +14,16 @@ const formatLabellingReservation = (accounts, assignment) => {
   return labellingFormat;
 }
 
+const formatLabels = labels => {
+  let filterLabelsId = []
+  let jsonLabel
+  labels.forEach(label => {
+    jsonLabel = JSON.parse(label)
+    filterLabelsId.push(jsonLabel.id)
+  })
+  return filterLabelsId
+}
+
 const formatAccountLabellings = (reservedId, labels) => {
   console.log("=== START FORMAT ===")
   let labellingFormat = []
@@ -56,5 +66,6 @@ module.exports = {
   formatLabellingReservation,
   formatAssignmentProgress,
   formatAccountLabellings,
-  formatCategoryLabels
+  formatCategoryLabels,
+  formatLabels
 }
