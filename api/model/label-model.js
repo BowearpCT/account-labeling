@@ -15,6 +15,9 @@ module.exports = db.sequelize.define(
     parent_id: {
       type: Sequelize.INTEGER,
       hierarchy: true
+    },
+    category_group:{
+      type: Sequelize.INTEGER
     }
   },
   {
