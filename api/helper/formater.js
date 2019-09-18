@@ -14,14 +14,34 @@ const formatLabellingReservation = (accounts, assignment) => {
   return labellingFormat;
 }
 
-const formatLabelsId = labels => {
-  let filterLabelsId = []
-  let jsonLabel
-  labels.forEach(label => {
-    jsonLabel = JSON.parse(label)
-    filterLabelsId.push(jsonLabel.id)
+const formatAccountsId = accounts => {
+  let accountsId = []
+  accounts.forEach(account => {
+    accountsId.push(account.id)
   })
-  return filterLabelsId
+  return accountsId
+}
+
+const formatCategoriesLabelsId = categoryLabels => {
+  let categoryLabelsId = {
+    typeOfProfile : [],
+    topicByBusiness: [],
+    interest: [],
+    demographicOrTarget: []
+  } 
+  categoryLabels.typeOfProfile.forEach(label => {
+    categoryLabelsId.typeOfProfile.push(label.id)
+  })
+  categoryLabels.topicByBusiness.forEach(label => {
+    categoryLabelsId.topicByBusiness.push(label.id)
+  })
+  categoryLabels.interest.forEach(label => {
+    categoryLabelsId.interest.push(label.id)
+  })
+  categoryLabels.demographicOrTarget.forEach(label => {
+    categoryLabelsId.demographicOrTarget.push(label.id)
+  })
+  return categoryLabelsId
 }
 
 const formatAccountLabellings = (reservedId, labels) => {
@@ -67,5 +87,6 @@ module.exports = {
   formatAssignmentProgress,
   formatAccountLabellings,
   formatCategoryLabels,
-  formatLabelsId
+  formatCategoriesLabelsId,
+  formatAccountsId
 }
