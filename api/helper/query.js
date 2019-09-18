@@ -8,6 +8,7 @@ const accountBookingModel = require("../model/account-booking-model")
 const moment = require("moment");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op
+const {formatCategoryLabels} = require("./formater")
 
 const createAssignment = assignment => {
   const createResult = assignmentModel.create({
@@ -23,6 +24,17 @@ const createAssignment = assignment => {
 }
 
 const insertLabellings = labellings => accountLabellingModel.bulkCreate(labellings)
+
+
+const updateReservedAccount = reservedId => accountBookingModel.update(
+  {
+    status: "enable",
+  },
+  {
+    where: {
+      id: reservedId
+    }
+  });
 
 const insertLabelling = (bookingId, labelId) => accountLabellingModel.create({
   booking_id: bookingId,
@@ -287,7 +299,7 @@ const findAncestorLabels = async parentIdInput => {
 }
 
 const findDescendentLabels = async labelId => {
-  let ancestors = await labelModel.findAll({ where: { id: labelId } });
+  let ancestors = await labelModel.findAll({ where: { id: labelId },raw:true });
   let labels = [];
   let labelDescendents = [];
   try {
@@ -296,7 +308,8 @@ const findDescendentLabels = async labelId => {
         let descendents = await labelModel.findAll({
           where: {
             parent_id: ancestor.id
-          }
+          },
+          raw:true
         });
         labelDescendents.push(...descendents);
       }
@@ -348,6 +361,51 @@ const findAccountLabelling = accountReservedId => accountLabellingModel.find({
   include: [{ model: accountBookingModel }]
 })
 
+const findAccountsLabelling = () => accountBookingModel.findAll({
+  where: {
+    status:{
+      [Op.ne]:null
+    }
+  },
+  include: [
+    {
+      model: accountLabellingModel,
+      include: [
+        labelModel,
+      ]
+    },
+    {
+      model: accountModel,
+      include: [
+        channelModel
+      ]
+    }
+  ]
+})
+
+const findAccountsLabelsByAccountsId = accountsId => accountBookingModel.findAll({
+  where: {
+    status:{
+      [Op.ne]:null,
+    },
+    id: accountsId
+  },
+  include: [
+    {
+      model: accountLabellingModel,
+      include: [
+        labelModel,
+      ]
+    },
+    {
+      model: accountModel,
+      include: [
+        channelModel
+      ]
+    }
+  ]
+})
+
 const findUserByRoleId = roleId => userModel.findAll({
   where: { role_id: roleId },
   raw: true
@@ -362,6 +420,23 @@ const findLabelByName = labelName => labelModel.findOne({
   where: { name: labelName },
   raw: true
 });
+
+const findLabels = async categories => {
+  console.log(categories[0].id)
+  let labels = []
+  try {
+    for(let i=0;i < categories.length;i++){
+      const categoryLabels = await findDescendentLabels(categories[i].id)
+      const formatResult = await formatCategoryLabels(categories[i], categoryLabels)
+      labels.push(formatResult)
+    }
+    return labels
+  } catch (error) {
+    console.log(error)
+    return error
+  }
+  
+}
 
 const findCategoryLabels = () => labelModel.findAll({
   where: { parent_id: null },
@@ -418,6 +493,44 @@ const deleteAssignment = async assignmentId => {
   }
 }
 
+const filterAccounts = async categoriesLabelsId => {
+  const filterLabelId = [ 
+    ...categoriesLabelsId.typeOfProfile, 
+    ...categoriesLabelsId.interest, 
+    ...categoriesLabelsId.topicByBusiness, 
+    ...categoriesLabelsId.demographicOrTarget
+  ]
+  console.log(filterLabelId)
+  try {
+    const accountsLabels = await accountBookingModel.findAll({
+      where: {
+        status:{
+          [Op.ne]:null
+        },
+        "$account_labellings.label_id$" : filterLabelId
+      },
+      include: [
+        {
+          model: accountLabellingModel,
+          include: [
+            labelModel,
+          ]
+        },
+        {
+          model: accountModel,
+          include: [
+            channelModel
+          ]
+        }
+      ]
+    })
+    return accountsLabels
+  } catch (error) {
+    throw error
+  }
+}
+
+
 module.exports = {
   findUserByRoleId,
   findUserByUsername,
@@ -425,6 +538,7 @@ module.exports = {
   findChannelByName,
   findAccountsForLabel,
   findAssignmentByTimeCreate,
+  findAccountsLabelsByAccountsId,
   findAssignmentFilter,
   findDescendentLabels,
   findAncestorLabels,
@@ -438,5 +552,9 @@ module.exports = {
   insertLabellings,
   createAssignment,
   reserveLabelling,
-  deleteAssignment
+  deleteAssignment,
+  updateReservedAccount,
+  findAccountsLabelling,
+  findLabels,
+  filterAccounts
 }
