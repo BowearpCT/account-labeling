@@ -2,6 +2,7 @@ const axios = require("axios");
 export default {
   state: {
     accounts: null,
+    accountLabelling: null,
     currentAccount: null,
     index: 0
   },
@@ -14,6 +15,9 @@ export default {
     },
     index: function (state) {
       return state.index
+    },
+    accountLabelling: function (state) {
+      return state.accountLabelling;
     }
   },
   mutations: {
@@ -40,6 +44,12 @@ export default {
     },
     resetIndex: function (state) {
       state.index = 0;
+    },
+    setAccountLabelling: function(state, payload) {
+      state.accountLabelling = payload;
+    },
+    clearAccountLabelling: function(state) {
+      state.accountLabelling = null;
     }
   },
   actions: {
@@ -51,6 +61,33 @@ export default {
           "http://localhost:3000/api/account-booking/" + payload
         );
         commit("setAccounts", reservedAccounts.data);
+      } catch (error) {
+        throw error;
+      }
+    },
+    async fetchAccounts({ commit }) {
+      axios.defaults.headers.common["Authorization"] = this.getters.jwtToken;
+      try {
+        const { data } = await axios.get(
+          "http://localhost:3000/api/accounts/labelling"
+        );
+        commit("setAccountLabelling", data);
+      } catch (error) {
+        throw error;
+      }
+    },
+    async fetchAccountsFilter({ commit }, payload) {
+      axios.defaults.headers.common["Authorization"] = this.getters.jwtToken;
+      try {
+        const { data } = await axios.get(
+          "http://localhost:3000/api/accounts/labelling/filter",
+          {
+            params: {
+              labels: payload
+            }
+          }
+        );
+        commit("setAccountLabelling", data);
       } catch (error) {
         throw error;
       }
