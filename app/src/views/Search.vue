@@ -7,16 +7,13 @@
         <b-col offset="1" cols="10">
           <b-row>
             <b-col>
-              <h1>Account List</h1><p>{{channel}}, {{likedSelected}}, {{search}}, {{filter}}</p>
+              <h1>Account List</h1>
             </b-col>
           </b-row>
           <hr>
           <b-row align-h="between">
             <b-col>
               <h3>Filter</h3>
-            </b-col>
-            <b-col cols="4">
-                <input type="text" v-model="search" class="form-control" id="exampleInputEmail1" placeholder="search..." aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
             </b-col>
           </b-row>
           <b-row>
@@ -78,6 +75,7 @@
       </b-row>
       <b-row align-h="center">
         <b-col cols="10">
+          <input type="text" v-model="search" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="search..." aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
           <AccountsTable :channel="channel" :like="likedSelected"/>
         </b-col>
       </b-row>
@@ -126,12 +124,16 @@ export default {
       selected:null,
       likedSelected:0,
       search:"",
-      selectedLabels: []
+      selectedLabels: [],
+      nextRequestId: 1
     }
   },
   watch:{
     search(value){
-      console.log("fetching")
+      if(value.length >= 2 || value.length==0){
+        console.log("fetching")
+        this.fetchAccountsFilter()
+      }
     },
     typeOfProfile(){
       this.fetchAccountsFilter()
@@ -175,10 +177,13 @@ export default {
     fetchAccountsFilter(){
       this.selectedLabels = [...this.typeOfProfile, ...this.topicByBusiness, ...this.interest, ...this.demographicOrTarget]
       const payload = {
-        typeOfProfile : this.typeOfProfile,
-        topicByBusiness : this.topicByBusiness,
-        interest : this.interest,
-        demographicOrTarget : this.demographicOrTarget
+        labels: {
+          typeOfProfile : this.typeOfProfile,
+          topicByBusiness : this.topicByBusiness,
+          interest : this.interest,
+          demographicOrTarget : this.demographicOrTarget
+        },
+        search : this.search 
       }
       console.log(payload)
       this.$store.dispatch("fetchAccountsFilter", payload);
