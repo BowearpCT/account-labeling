@@ -7,8 +7,9 @@ import auth from "./auth/admin";
 import authUser from "./auth/user";
 import Assign from "./views/Assign.vue";
 import Labelling from "./views/Labelling.vue";
-import DashBoardUser from "./views/DashBoardUser.vue"
-import pageNotFound from "./components/page404.vue"
+import DashBoardUser from "./views/DashBoardUser.vue";
+import pageNotFound from "./components/page404.vue";
+import Search from "./views/Search.vue";
 
 Vue.use(Router);
 
@@ -39,6 +40,11 @@ export default new Router({
       path: "/labelling",
       component: Labelling,
       beforeEnter: authUser
+    },
+    {
+      path: "/search",
+      component: Search,
+      beforeEnter: auth
     },
     {
       path: "*",
