@@ -383,12 +383,15 @@ const findAccountsLabelling = () => accountBookingModel.findAll({
   ]
 })
 
-const findAccountsLabelsByAccountsId = accountsId => accountBookingModel.findAll({
+const findAccountsLabelsByAccountsId = (accountsId, search) => accountBookingModel.findAll({
   where: {
     status:{
       [Op.ne]:null,
     },
-    id: accountsId
+    id: accountsId,
+    "$account.account_name$" :{
+      [Op.like]: `${search}%`
+    }
   },
   include: [
     {
@@ -500,7 +503,6 @@ const filterAccounts = async categoriesLabelsId => {
     ...categoriesLabelsId.topicByBusiness, 
     ...categoriesLabelsId.demographicOrTarget
   ]
-  console.log(filterLabelId)
   try {
     const accountsLabels = await accountBookingModel.findAll({
       where: {
@@ -530,6 +532,28 @@ const filterAccounts = async categoriesLabelsId => {
   }
 }
 
+const findAccountsLabellingsLike = query => accountBookingModel.findAll({
+    where:{
+      "$account.account_name$" :{
+        [Op.like]: `${query}%`
+      }
+    },
+    include: [
+      {
+        model: accountLabellingModel,
+        include: [
+          labelModel,
+        ]
+      },
+      {
+        model: accountModel,
+        include: [
+          channelModel
+        ]
+      }
+    ]
+  })
+
 
 module.exports = {
   findUserByRoleId,
@@ -556,5 +580,6 @@ module.exports = {
   updateReservedAccount,
   findAccountsLabelling,
   findLabels,
-  filterAccounts
+  filterAccounts,
+  findAccountsLabellingsLike
 }
