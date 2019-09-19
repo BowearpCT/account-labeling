@@ -1,7 +1,8 @@
 var express = require('express')
 var router = express.Router()
 const {
-  checkFilter
+  checkFilter,
+  checkSearch
 } = require("../helper/checker")
 const {
   formatAccountLabellings,
@@ -15,7 +16,8 @@ const {
   updateReservedAccount,
   findAccountsLabelling,
   findAccountsLabelsByAccountsId,
-  filterAccounts
+  filterAccounts,
+  findAccountsLabellingsLike
 } = require("../helper/query");
 
 router.get("/account/booking/:assignmentId", async (req, res) => {
@@ -60,22 +62,25 @@ router.get("/accounts/labelling/filter",async (req, res) => {
   const categoryLabels = JSON.parse(req.query.labels)
   const categoriesLabelsId = await formatCategoriesLabelsId(categoryLabels)
   const labelsId = Object.values(categoriesLabelsId)
-  console.log(labelsId)
   let filter
+  let search
   let accountLabels 
   try {
+    search = await checkSearch(req.query.search)
     filter = await checkFilter(labelsId)
-    console.log(filter)
-    if(filter){
-      accounts = await filterAccounts(categoriesLabelsId)
-      accountsId = await formatAccountsId(accounts)
-      accountLabels = await findAccountsLabelsByAccountsId(accountsId)
-      console.log("debug",accountLabels)
+    if(filter || search){
+      if (filter){
+        accounts = await filterAccounts(categoriesLabelsId)
+        accountsId = await formatAccountsId(accounts)
+        accountLabels = await findAccountsLabelsByAccountsId(accountsId, req.query.search)
+      }
+      else{
+        accountLabels = await findAccountsLabellingsLike(req.query.search)
+      }
     }
     else{
       accountLabels = await findAccountsLabelling()
     }
-    console.log(accountLabels)
     res.send(accountLabels)
   } catch (error) {
     res.send(error)

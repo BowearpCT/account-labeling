@@ -83,7 +83,8 @@ export default {
           "http://localhost:3000/api/accounts/labelling/filter",
           {
             params: {
-              labels: payload
+              labels: payload.labels,
+              search: payload.search
             }
           }
         );
