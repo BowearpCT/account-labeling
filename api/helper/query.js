@@ -361,27 +361,34 @@ const findAccountLabelling = accountReservedId => accountLabellingModel.find({
   include: [{ model: accountBookingModel }]
 })
 
-const findAccountsLabelling = () => accountBookingModel.findAll({
-  where: {
-    status:{
-      [Op.ne]:null
-    }
-  },
-  include: [
-    {
-      model: accountLabellingModel,
+const findAccountsLabelling = () => {
+  try {
+    const accounts = accountBookingModel.findAll({
+      where: {
+        status:{
+          [Op.ne]:null
+        }
+      },
       include: [
-        labelModel,
+        {
+          model: accountLabellingModel,
+          include: [
+            labelModel,
+          ]
+        },
+        {
+          model: accountModel,
+          include: [
+            channelModel
+          ]
+        }
       ]
-    },
-    {
-      model: accountModel,
-      include: [
-        channelModel
-      ]
-    }
-  ]
-})
+    })
+    return accounts
+  } catch (error) {
+    throw error
+  }
+}
 
 const findAccountsLabelsByAccountsId = (accountsId, search) => accountBookingModel.findAll({
   where: {

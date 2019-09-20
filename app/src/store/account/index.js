@@ -4,7 +4,8 @@ export default {
     accounts: null,
     accountLabelling: null,
     currentAccount: null,
-    index: 0
+    index: 0,
+    total: 0
   },
   getters: {
     accounts: function (state) {
@@ -18,6 +19,9 @@ export default {
     },
     accountLabelling: function (state) {
       return state.accountLabelling;
+    },
+    total: function (state){
+      return state.total;
     }
   },
   mutations: {
@@ -50,6 +54,12 @@ export default {
     },
     clearAccountLabelling: function(state) {
       state.accountLabelling = null;
+    },
+    setTotal: function(state, payload) {
+      state.total = payload;
+    },
+    clearTotal: function(state) {
+      state.total = 0;
     }
   },
   actions: {

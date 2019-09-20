@@ -85,6 +85,9 @@ export default {
     },
     index() {
       return this.$store.getters.index;
+    },
+    total() {
+      return this.$store.getters.total;
     }
   },
   watch: {},
@@ -136,10 +139,14 @@ export default {
         reservedId:this.accounts[this.index].id,
         labels: this.values
       });
-      await this.increateIndex()
-    },
-    goBack(){
-
+      if (this.index >= this.total-1){
+        this.$store.commit("clearTotal")
+        this.$store.commit("resetIndex")
+        this.$router.push("/user")
+      }
+      else{
+        await this.increateIndex()
+      }
     },
     increateIndex() {
       this.$store.commit("increateIndex");
