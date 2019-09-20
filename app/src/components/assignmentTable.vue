@@ -83,6 +83,7 @@ export default {
     goLabelling(value) {
       console.log(value);
       this.$store.commit("setIndex", value.startPoint)
+      this.$store.commit("setTotal", value.total)
       this.$store.dispatch("getAcoountBooking", value.id);
       this.$store.dispatch("labels", value.category);
       setTimeout(() => {
