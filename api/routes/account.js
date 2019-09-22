@@ -7,7 +7,8 @@ const {
 const {
   formatAccountLabellings,
   formatCategoriesLabelsId,
-  formatAccountsId
+  formatAccountsId,
+  groupLabels
 } = require("../helper/formater")
 const {
   findAccountBooking,
@@ -52,7 +53,8 @@ router.get("/account/labelling/:accountReservedId",async (req, res) => {
 router.get("/accounts/labelling",async (req,res) => {
   try {
     const accounts = await findAccountsLabelling();
-    res.send(accounts);
+    const response = await groupLabels(JSON.parse(JSON.stringify(accounts)))
+    res.send(response);
   } catch (error) {
     res.send(error)
   }
@@ -81,7 +83,8 @@ router.get("/accounts/labelling/filter",async (req, res) => {
     else{
       accountLabels = await findAccountsLabelling()
     }
-    res.send(accountLabels)
+    const response = await groupLabels(JSON.parse(JSON.stringify(accountLabels)))
+    res.send(response)
   } catch (error) {
     res.send(error)
   }

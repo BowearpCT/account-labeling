@@ -9,7 +9,8 @@ const sequelize = new Sequelize("miniProject", "root", "password", {
     min: 0,
     accquire: 30000,
     idle: 10000
-  }
+  },
+  query:true
 })
 
 const db = {}

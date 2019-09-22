@@ -82,11 +82,44 @@ const formatCategoryLabels = (category, labels) => {
   return categoryLabels
 }
 
+const groupLabels = accountsLabellings => {
+  try {
+    const groupAccountsLabellings = accountsLabellings.reduce((result, account, index, array) => {
+      let currentAccount = account
+      let results = []
+      results.push(...result)
+      const duplicate = results.some(checkAccount => {
+        return checkAccount.account_id == account.account_id
+      })
+      let duplicateAccounts
+      if (!duplicate){
+        duplicateAccounts = array.filter(element => {
+          return element.account_id == account.account_id
+        })
+        console.log("=== ===  === debug ===  === ===")
+        currentAccount.account_labellings = duplicateAccounts.reduce((labellings, labelling) => {
+          labelling.account_labellings.forEach(label => {
+            labellings.push(label)
+          });
+          return labellings
+        },[])
+        console.log("=== ===  === debug ===  === ===")
+        result.push(currentAccount)
+      }
+      return result
+    },[])
+    return groupAccountsLabellings
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
   formatLabellingReservation,
   formatAssignmentProgress,
   formatAccountLabellings,
   formatCategoryLabels,
   formatCategoriesLabelsId,
-  formatAccountsId
+  formatAccountsId,
+  groupLabels
 }
