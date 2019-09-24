@@ -7,7 +7,6 @@ var login = require("./routes/login")
 var user = require("./routes/user")
 const assignment = require("./routes/assignment")
 var label = require("./routes/label")
-var test = require("./routes/test-routes")
 var hierarchy = require("./routes/hierachy_label")
 var cors = require("cors")
 var port = 3000
@@ -88,7 +87,6 @@ userModel.hasMany(assignmentModel, { foreignKey: 'assign_by' });
 userModel.belongsTo(countryModel, { foreignKey: 'from_country_id' });
 userModel.belongsTo(roleModel, { foreignKey: 'role_id' });
 
-app.use('/test', test);
 app.use('/user', login);
 app.use("/api", requireJWTAuth, [label, account, hierarchy, accountBooking, user, assignment]);
 
