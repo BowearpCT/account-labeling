@@ -543,6 +543,9 @@ const findAccountsLabellingsLike = query => accountBookingModel.findAll({
     where:{
       "$account.account_name$" :{
         [Op.like]: `${query}%`
+      },
+      status : {
+        [Op.ne]: null
       }
     },
     include: [
