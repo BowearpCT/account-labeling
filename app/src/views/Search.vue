@@ -7,20 +7,15 @@
         <b-col offset="1" cols="10">
           <b-row>
             <b-col>
-              <h1>Account List</h1>
+              <h3>Account List</h3>
             </b-col>
           </b-row>
           <hr>
-          <b-row align-h="between">
-            <b-col>
-              <h3>Filter</h3>
-            </b-col>
-          </b-row>
           <b-row>
             <b-col>
               <b-form-group>
                 <label>
-                    <h6><b>channel</b></h6>
+                    <h6><b>Channel</b></h6>
                 </label>
                 <b-form-radio-group
                   id="radio-group-2"
@@ -85,7 +80,6 @@
 
 
 <script>
-// @ is an alias to /src
 import Nav from "../components/Nav.vue"
 import AccountsTable from "../components/AccountsTable.vue"
 import Multiselect from 'vue-multiselect'
