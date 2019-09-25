@@ -22,7 +22,6 @@ const channelModel = require("./model/channel-model");
 const accountBookingModel = require("./model/account-booking-model");
 const accountLabellingModel = require("./model/account-labelling-model")
 
-const jwt = require("jwt-simple");
 const passport = require("passport");
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
@@ -32,7 +31,6 @@ const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromHeader("authorization"),
   secretOrKey: SECRET
 };
-//  payload.sub ????
 
 const jwtAuth = new JwtStrategy(jwtOptions, async (payload, done) => {
   try {
