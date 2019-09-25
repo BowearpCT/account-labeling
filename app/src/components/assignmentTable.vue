@@ -55,7 +55,7 @@ import tag from "./TagSocialmedia.vue"
 export default {
   data() {
     return {
-      fields: ["id", "assign to", "category", "channel", "progress"],
+      fields: ["Id", "Assign to", "Category", "Channel", "Progress"],
       selectedAssignment: null
     };
   },

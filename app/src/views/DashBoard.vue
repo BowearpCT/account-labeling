@@ -7,23 +7,18 @@
         <b-col offset="1" cols="10">
           <b-row>
             <b-col>
-              <h1>Assignment Management</h1>
+              <h3>Assignment Management</h3>
             </b-col>
           </b-row>
           <hr />
           <b-row>
             <b-col>
-              <h3>Filter</h3>
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col>
               <b-form-group>
                 <label>
-                  <h6><b>category</b></h6>
+                  <h6><b>Category</b></h6>
                 </label>
                 <b-form-radio-group id="radio-group-2" v-model="labelId" name="radio-sub-component">
-                  <b-form-radio value>all</b-form-radio>
+                  <b-form-radio value>All</b-form-radio>
                   <b-form-radio
                     v-for="(category, index) in categories"
                     :key="index"
@@ -37,7 +32,7 @@
             <b-col>
               <b-form-group>
                 <label>
-                    <h6><b>channel</b></h6>
+                    <h6><b>Channel</b></h6>
                 </label>
                 <b-form-radio-group
                   id="radio-group-2"
@@ -50,7 +45,7 @@
           </b-row>
           <b-row>
             <b-col>
-              <h6><b>user</b></h6>
+              <h6><b>User</b></h6>
             </b-col>
           </b-row>
           <b-row align-h="between">
@@ -63,7 +58,7 @@
               <b-row align-h="start">
                 <b-col cols="3">
                   <b-form-select v-model="value" class="mb-3">
-                    <option value="">select all</option>
+                    <option value="">Select all</option>
                     <option v-for="(user, index) in users" :key="index" :value="user" >{{user.name}}</option>
                   </b-form-select>
                 </b-col>
@@ -99,11 +94,11 @@ export default {
       labelId: "",
       value: "",
       channels: [
-        { text: "all", value: "" },
-        { text: "facebook", value: "facebook" },
-        { text: "instagram", value: "instagram" },
-        { text: "twitter", value: "twitter" },
-        { text: "youtube", value: "youtube" }
+        { text: "All", value: "" },
+        { text: "Facebook", value: "facebook" },
+        { text: "Instagram", value: "instagram" },
+        { text: "Twitter", value: "twitter" },
+        { text: "Youtube", value: "youtube" }
       ]
     };
   },

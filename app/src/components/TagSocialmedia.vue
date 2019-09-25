@@ -1,7 +1,7 @@
 <template >
   <div>
-    <span class="badge" :style="color">
-      <img :src="image">{{channel}}
+    <span class="badge" >
+      <img :src="image">
     </span>
   </div>
 </template>
@@ -23,19 +23,15 @@ export default {
   methods: {
     selectLink () {
       if (this.channel == "facebook"){
-        this.color = "background-color:#3b5998;"
-        this.image = "https://img.icons8.com/officexs/12/000000/facebook-new.png"
+        this.image = "https://img.icons8.com/color/25/000000/facebook-new.png"
       } 
       else if (this.channel == "twitter") {
-        this.color = "background-color:#00acee;"
         this.image = "https://img.icons8.com/offices/12/000000/twitter.png"
       }
       else if (this.channel == "instagram") {
-        this.color = "background-color:#C13584;"
         this.image = "https://img.icons8.com/officexs/12/000000/instagram-new.png"
       }
       else if (this.channel == "youtube") {
-        this.color = "background-color:#FF0000"
         this.image = "https://img.icons8.com/color/12/000000/youtube-play.png"
       }
     }
