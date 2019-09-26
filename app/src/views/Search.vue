@@ -70,7 +70,7 @@
       </b-row>
       <b-row align-h="center">
         <b-col cols="10">
-          <input type="text" v-model="search" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="search..." aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+          <input type="text" v-model="search" class="form-control " id="exampleInputEmail1" placeholder="search..." aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
           <AccountsTable :channel="channel" :like="likedSelected"/>
         </b-col>
       </b-row>
