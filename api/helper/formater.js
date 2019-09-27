@@ -17,7 +17,7 @@ const formatLabellingReservation = (accounts, assignment) => {
 const formatAccountsId = accounts => {
   let accountsId = []
   accounts.forEach(account => {
-    accountsId.push(account.id)
+    accountsId.push(account.account_id)
   })
   return accountsId
 }

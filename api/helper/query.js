@@ -395,7 +395,7 @@ const findAccountsLabelsByAccountsId = (accountsId, search) => accountBookingMod
     status:{
       [Op.ne]:null,
     },
-    id: accountsId,
+    account_id: accountsId,
     "$account.account_name$" :{
       [Op.like]: `${search}%`
     }
