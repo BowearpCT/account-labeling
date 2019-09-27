@@ -32,7 +32,7 @@ import tagLabel from "../components/Label.vue"
 export default {
   data() {
     return{
-      fields: ["account id", "account name", "channel", "liked count", "labels"],
+      fields: ["Account id", "Account name", "Channel", "Liked count", "Labels"],
     }
   },
   created(){
@@ -44,7 +44,9 @@ export default {
   },
   props:{
     channel:String,
-    like:Number
+    like:Number,
+    minLiked: String,
+    maxLiked: String
   },
   computed:{
     accountLabelling(){
@@ -57,15 +59,18 @@ export default {
     },
     CheckFilter(accountChannel, accountLike) {
       let render = true
-      if(this.channel && this.like){
-        if(this.channel != accountChannel || accountLike < this.like) render = false
+      if(this.channel && this.minLiked && this.maxLiked){
+        if(accountLike < this.minLiked || accountLike > this.maxLiked || this.channel != accountChannel) render = false
       }
-      else if(this.channel) {
-        if(this.channel != accountChannel) render = false;
+      else if(this.minLiked && this.maxLiked){
+        if(accountLike < this.minLiked || accountLike > this.maxLiked) render = false
       }
-      else if(this.like){
-        if(accountLike < this.like) render = false;
-      } 
+      else if(this.minLiked) {
+        if(accountLike < this.minLiked) render = false;
+      }
+      else if(this.maxLiked) {
+        if(accountLike > this.minLiked) render = false;
+      }
       return render
     }
   }
