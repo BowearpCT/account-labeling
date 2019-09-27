@@ -15,7 +15,6 @@ router.get("/account-booking", async (req, res) => {
 router.get("/account-booking/:assignmentId", async (req, res) => {
   try {
     const accountBooking = await findAccountBooking(req.params.assignmentId);
-    console.log(accountBooking)
     res.send(accountBooking);
   } catch (error) {
     res.send(error)

@@ -205,7 +205,6 @@ export default {
         },
         search : this.search 
       }
-      console.log(payload)
       this.$store.dispatch("fetchAccountsFilter", payload);
     },
     fetchCategoryLabels() {

@@ -62,7 +62,6 @@ export default {
   methods: {
     getAssignments() {
       // this.$store.dispatch("assignments", this.user.id);
-      console.log(this.user.id);
       this.userId.id = this.user.id;
       this.$store.dispatch("assignments", {
         userId: this.userId,

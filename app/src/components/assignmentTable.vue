@@ -73,7 +73,6 @@ export default {
 
   methods: {
     async deleteAssignment() {
-      console.log(this.selectedAssignment.id);
       await this.$store.dispatch(
         "deleteAssignment",
         this.selectedAssignment.id
@@ -81,7 +80,6 @@ export default {
       window.location.reload(true);
     },
     goLabelling(value) {
-      console.log(value);
       this.$store.commit("setIndex", value.startPoint)
       this.$store.commit("setTotal", value.total)
       this.$store.dispatch("getAcoountBooking", value.id);

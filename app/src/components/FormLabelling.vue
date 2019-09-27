@@ -96,7 +96,6 @@ export default {
       axios.defaults.headers.common[
         "Authorization"
       ] = this.$store.getters.jwtToken;
-      console.log(this.$store.getters.jwtToken);
       const ancestors = await axios.get(
         "http://localhost:3000/api/label/ancestors/" + value.parent_id
       );
@@ -119,7 +118,6 @@ export default {
       axios.defaults.headers.common[
         "Authorization"
       ] = this.$store.getters.jwtToken;
-      console.log(this.$store.getters.jwtToken);
       const descendents = await axios.get(
         "http://localhost:3000/api/label/descendents/id/" + value.id
       );
@@ -133,8 +131,6 @@ export default {
       });
     },
     async goNext(){
-      console.log(this.accounts[this.index].id)
-      console.log(this.values)
       await this.$store.dispatch("insertLabelling", {
         reservedId:this.accounts[this.index].id,
         labels: this.values

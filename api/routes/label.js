@@ -12,10 +12,7 @@ const {
 router.get("/labels", async (req, res) => {
   try {
     const categories = await findCategoryLabels();
-    console.log(categories)
     const categorylabels = await findLabels(categories);
-    console.log(categorylabels)
-    console.log("=== close ===")
     res.send(categorylabels)
   } catch (error) {
     res.send(error)

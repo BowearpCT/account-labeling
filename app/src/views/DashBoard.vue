@@ -124,7 +124,6 @@ export default {
   },
   watch: {
     value() {
-      console.log(this.value)
       this.userAssignments();
     },
     labelId() {

@@ -48,8 +48,6 @@ router.get("/labelDescendent/:name", async (req, res) => {
                 parentId: resObj.id
             }
         })
-        // console.log(resObj.include);
-        
         res.send(resObj)
     } catch (error) {
         res.send(error)

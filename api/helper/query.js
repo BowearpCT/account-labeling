@@ -82,7 +82,6 @@ const findAssignmentFilter = async filter => {
   let assignments
 
   if (filter) {
-    console.log("in filter", filter.userId, filter.channel, filter.labelId)
     if (filter.userId && filter.channel && filter.labelId) {
       assignments = await findAssignmentsByUserChannelCategory(
         filter.userId,
@@ -112,7 +111,6 @@ const findAssignmentFilter = async filter => {
       assignments = await findAssignments()
     }
   }
-  console.log(assignments)
   return assignments
 }
 
@@ -432,7 +430,6 @@ const findLabelByName = labelName => labelModel.findOne({
 });
 
 const findLabels = async categories => {
-  console.log(categories[0].id)
   let labels = []
   try {
     for(let i=0;i < categories.length;i++){
@@ -442,7 +439,6 @@ const findLabels = async categories => {
     }
     return labels
   } catch (error) {
-    console.log(error)
     return error
   }
   
@@ -476,7 +472,6 @@ const findAssignmentProgress = async assignments => {
     })
     progress.push(count);
   }
-  console.log(progress)
   return progress
 }
 
@@ -498,7 +493,6 @@ const deleteAssignment = async assignmentId => {
         }
       });
   } catch (error) {
-    console.log(error)
     return error
   }
 }
