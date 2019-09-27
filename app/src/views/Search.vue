@@ -84,10 +84,10 @@
             </b-col>
           </b-row>
           <br>
-          <b-row align-h="start">
-            <b-col cols="4">
-                <b-form-input v-model="search" id="`type-text`" type="text" placeholder="search...">
-                </b-form-input>
+          <b-row align-h="end">
+            <b-col cols="3">
+              <b-form-input v-model="search" id="`type-text`" type="text" placeholder="search...">
+              </b-form-input>
             </b-col>
           </b-row>
           <b-row align-h="center">
