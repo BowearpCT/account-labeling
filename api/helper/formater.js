@@ -96,14 +96,12 @@ const groupLabels = accountsLabellings => {
         duplicateAccounts = array.filter(element => {
           return element.account_id == account.account_id
         })
-        console.log("=== ===  === debug ===  === ===")
         currentAccount.account_labellings = duplicateAccounts.reduce((labellings, labelling) => {
           labelling.account_labellings.forEach(label => {
             labellings.push(label)
           });
           return labellings
         },[])
-        console.log("=== ===  === debug ===  === ===")
         result.push(currentAccount)
       }
       return result
