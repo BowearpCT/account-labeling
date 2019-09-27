@@ -1,5 +1,5 @@
 <template>
-  <span class="badge" :style="color">
+  <span class="badge" :style="AddLabelColor()">
     {{labelName}}
   </span>
 </template>
@@ -28,7 +28,7 @@ export default {
   },
   methods:{
     AddLabelColor() {
-      this.color = this.colorList[this.level]
+      return this.colorList[this.level]
     }
   },
 }
