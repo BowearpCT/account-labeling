@@ -151,9 +151,8 @@ export default {
     search(value){ 
       clearTimeout(this.timeout)
       this.timeout = setTimeout(() => {
-        console.log("fetching")
         this.fetchAccountsFilter()
-      }, 2000);
+      }, 1000);
         
     },
     typeOfProfile(){
