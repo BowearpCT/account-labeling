@@ -27,7 +27,7 @@
               </b-form-group>
             </b-col>
           </b-row>
-          <b-row >
+          <!-- <b-row >
             <b-col >
               <b-form-group> 
                 <label>
@@ -40,6 +40,24 @@
                   name="radio-options-3"
                 >
                 </b-form-radio-group>
+              </b-form-group>
+            </b-col>
+          </b-row> -->
+          <b-row>
+            <b-col cols="6">
+              <b-form-group> 
+                <label>
+                  <h6><b>Liked count</b></h6>
+                </label>
+                <b-row>
+                  <b-col cols="3">
+                    <b-form-input type="number" v-model="minLikedCount" placeholder="Min"></b-form-input>
+                  </b-col>
+                  <img src="https://img.icons8.com/material/24/000000/minus--v3.png">
+                  <b-col cols="3">
+                    <b-form-input type="number" v-model="maxLikedCount" placeholder="Max"></b-form-input>
+                  </b-col>
+                </b-row>
               </b-form-group>
             </b-col>
           </b-row>
@@ -66,12 +84,17 @@
             </b-col>
           </b-row>
           <br>
-        </b-col>
-      </b-row>
-      <b-row align-h="center">
-        <b-col cols="10">
-          <input type="text" v-model="search" class="form-control " id="exampleInputEmail1" placeholder="search..." aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
-          <AccountsTable :channel="channel" :like="likedSelected"/>
+          <b-row align-h="start">
+            <b-col cols="4">
+                <b-form-input v-model="search" id="`type-text`" type="text" placeholder="search...">
+                </b-form-input>
+            </b-col>
+          </b-row>
+          <b-row align-h="center">
+            <b-col cols="12">
+              <AccountsTable :channel="channel" :minLiked="minLikedCount" :maxLiked="maxLikedCount" :like="likedSelected"/>
+            </b-col>
+          </b-row>
         </b-col>
       </b-row>
     </b-container>
@@ -119,15 +142,19 @@ export default {
       likedSelected:0,
       search:"",
       selectedLabels: [],
-      nextRequestId: 1
+      nextRequestId: 1,
+      minLikedCount:null,
+      maxLikedCount:null
     }
   },
   watch:{
-    search(value){
-      if(value.length >= 2 || value.length==0){
+    search(value){ 
+      clearTimeout(this.timeout)
+      this.timeout = setTimeout(() => {
         console.log("fetching")
         this.fetchAccountsFilter()
-      }
+      }, 2000);
+        
     },
     typeOfProfile(){
       this.fetchAccountsFilter()
@@ -189,8 +216,22 @@ export default {
 }
 </script>
 
-<style lang="scss" >
-input {
-  margin: 5px;
+<style lang="scss" scoped>
+button {
+  margin-top: 3px; 
 }
+input[type="text"],input[type="number"] {
+  margin-bottom: 0.15rem;
+  margin-top: 0.15rem;
+  border: 1px solid #e8e9e8;
+  border-radius : 5px;
+  font-family: inherit;
+  font-size: 15px;
+  padding: 20px 10px;
+  line-height: 28px; 
+}
+input::placeholder {
+  color: #b1b1b1
+}
+
 </style>
