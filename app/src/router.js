@@ -3,8 +3,9 @@ import Router from "vue-router";
 // import Home from "./views/Home.vue";
 import Dashboard from "./views/DashBoard.vue";
 import Login from "./views/Login.vue";
-import auth from "./auth/admin";
+import authAdmin from "./auth/admin";
 import authUser from "./auth/user";
+import authLogin from "./auth/login";
 import Assign from "./views/Assign.vue";
 import Labelling from "./views/Labelling.vue";
 import DashBoardUser from "./views/DashBoardUser.vue";
@@ -20,7 +21,7 @@ export default new Router({
     {
       path: "/assign",
       component: Assign,
-      beforeEnter: auth
+      beforeEnter: authAdmin
     },
     {
       path: "/user",
@@ -29,12 +30,13 @@ export default new Router({
     },
     {
       path: "/login",
-      component: Login
+      component: Login,
+      beforeEnter: authLogin
     },
     {
       path: "/dashboard",
       component: Dashboard,
-      beforeEnter: auth
+      beforeEnter: authAdmin
     },
     {
       path: "/labelling",
@@ -44,7 +46,7 @@ export default new Router({
     {
       path: "/search",
       component: Search,
-      beforeEnter: auth
+      beforeEnter: authAdmin
     },
     {
       path: "*",
