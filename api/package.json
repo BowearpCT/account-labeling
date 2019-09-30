@@ -7,7 +7,7 @@
     "build": "backpack build",
     "dev": "backpack",
     "start": "node server.js",
-    "test": "yarn build && mocha ./test --exit"
+    "test": "./node_modules/.bin/mocha --colors test/*"
   },
   "repository": {
     "type": "git",
