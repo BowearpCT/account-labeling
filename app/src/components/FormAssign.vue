@@ -1,17 +1,17 @@
 <template>
   <div>
     <b-row>
-      <b-col md="4">
+      <b-col >
         <h1>Assignment</h1>
       </b-col>
     </b-row>
     <hr />
     <b-form @submit.stop.prevent>
       <b-row align-h="start">
-        <b-col md="3">
+        <b-col cols="3">
           <b-form-group label="Assign to :"></b-form-group>
         </b-col>
-        <b-col md="3">
+        <b-col cols="3">
           <b-form-select
             id="input-username"
             v-model="$v.form.userSelected.$model"

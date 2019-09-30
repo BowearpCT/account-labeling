@@ -4,7 +4,7 @@
     <br /><br /><br />
     <b-container fluid>
       <b-row>
-        <b-col offset-md="2" md="8">
+        <b-col offset="2" cols="8">
           <FormAssign />
         </b-col>
       </b-row>
