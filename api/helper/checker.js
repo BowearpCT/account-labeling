@@ -1,10 +1,4 @@
-const checkFilter = labelsId => {
-  let filter = false
-  labelsId.forEach(labelId => {
-    if(labelId.length != 0) filter = true
-  });
-  return filter
-}
+const checkFilter = labelsId => labelsId.some(labelId => labelId.length != 0)
 
 const checkSearch = search => {
   let searchCheck = false
