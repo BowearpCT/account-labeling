@@ -77,33 +77,29 @@ const formatCategoryLabels = (category, labels) => {
 }
 
 const groupLabels = accountsLabellings => {
-  try {
-    const groupAccountsLabellings = accountsLabellings.reduce((result, account, index, array) => {
-      let currentAccount = account
-      let results = []
-      results.push(...result)
-      const duplicate = results.some(checkAccount => {
-        return checkAccount.account_id == account.account_id
+  const groupAccountsLabellings = accountsLabellings.reduce((result, account, index, array) => {
+    let currentAccount = account
+    let results = []
+    results.push(...result)
+    const duplicate = results.some(checkAccount => {
+      return checkAccount.account_id == account.account_id
+    })
+    let duplicateAccounts
+    if (!duplicate){
+      duplicateAccounts = array.filter(element => {
+        return element.account_id == account.account_id
       })
-      let duplicateAccounts
-      if (!duplicate){
-        duplicateAccounts = array.filter(element => {
-          return element.account_id == account.account_id
-        })
-        currentAccount.account_labellings = duplicateAccounts.reduce((labellings, labelling) => {
-          labelling.account_labellings.forEach(label => {
-            labellings.push(label)
-          });
-          return labellings
-        },[])
-        result.push(currentAccount)
-      }
-      return result
-    },[])
-    return groupAccountsLabellings
-  } catch (error) {
-    throw error
-  }
+      currentAccount.account_labellings = duplicateAccounts.reduce((labellings, labelling) => {
+        labelling.account_labellings.forEach(label => {
+          labellings.push(label)
+        });
+        return labellings
+      },[])
+      result.push(currentAccount)
+    }
+    return result
+  },[])
+  return groupAccountsLabellings
 }
 
 module.exports = {
