@@ -5,6 +5,7 @@ var accountBooking = require("./routes/account-booking")
 var account = require("./routes/account")
 var login = require("./routes/login")
 var user = require("./routes/user")
+const tryRoute = require("./routes/test-routes")
 const assignment = require("./routes/assignment")
 var label = require("./routes/label")
 var hierarchy = require("./routes/hierachy_label")
@@ -85,6 +86,7 @@ userModel.hasMany(assignmentModel, { foreignKey: 'assign_by' });
 userModel.belongsTo(countryModel, { foreignKey: 'from_country_id' });
 userModel.belongsTo(roleModel, { foreignKey: 'role_id' });
 
+app.use("/test", tryRoute)
 app.use('/user', login);
 app.use("/api", requireJWTAuth, [label, account, hierarchy, accountBooking, user, assignment]);
 
