@@ -1,78 +1,52 @@
 const formatLabellingReservation = (accounts, assignment) => {
-  const labellingFormat = []
-  accounts.forEach((account, index) => {
-    let labellingObject = {}
-    labellingObject.assignment_id = assignment.id;
-    labellingObject.account_id = account.id;
-    labellingFormat.push(labellingObject);
-  });
-  return labellingFormat;
+  const result = accounts.reduce((acc,cur) => [
+    ...acc,  
+    { assignment_id : assignment.id, account_id : cur.id }
+  ],[])
+  return result;
 }
 
-const formatAccountsId = accounts => {
-  let accountsId = []
-  accounts.forEach(account => {
-    accountsId.push(account.account_id)
-  })
-  return accountsId
-}
+const formatAccountsId = accounts => accounts.map(account => account.account_id)
 
 const formatCategoriesLabelsId = categoryLabels => {
-  let categoryLabelsId = {
-    typeOfProfile : [],
-    topicByBusiness: [],
-    interest: [],
-    demographicOrTarget: []
-  } 
-  categoryLabels.typeOfProfile.forEach(label => {
-    categoryLabelsId.typeOfProfile.push(label.id)
-  })
-  categoryLabels.topicByBusiness.forEach(label => {
-    categoryLabelsId.topicByBusiness.push(label.id)
-  })
-  categoryLabels.interest.forEach(label => {
-    categoryLabelsId.interest.push(label.id)
-  })
-  categoryLabels.demographicOrTarget.forEach(label => {
-    categoryLabelsId.demographicOrTarget.push(label.id)
-  })
+  let categoryLabelsId = {}
+  categoryLabelsId.typeOfProfile = categoryLabels.typeOfProfile.map(label => label.id)
+  categoryLabelsId.topicByBusiness = categoryLabels.topicByBusiness.map(label => label.id)
+  categoryLabelsId.interest = categoryLabels.interest.map(label => label.id)
+  categoryLabelsId.demographicOrTarget = categoryLabels.demographicOrTarget.map(label => label.id)
   return categoryLabelsId
 }
 
 const formatAccountLabellings = (reservedId, labels) => {
-  let labellingFormat = []
-  labels.forEach(label => {
-    let labelling = {}
-    labelling.booking_id = reservedId
-    labelling.label_id = label.id
-    labellingFormat.push(labelling)
-  })
+  const labellingFormat = labels.reduce((acc, cur)=> [...acc, {
+      booking_id : reservedId,
+      label_id : cur.id
+    }],[])
   return labellingFormat
 }
 
-const formatAssignmentProgress = (assignments, progress) => {
-  let assignmentFormat = []
-  assignments.forEach((assignment, index) => {
-    let assignmentObj = {};
-    assignmentObj.id = assignment.id
-    assignmentObj.category = assignment.label.name
-    assignmentObj.channel = assignment.channel.channel_name
-    assignmentObj.assignBy = assignment.assignBy.name
-    assignmentObj.assignTo = assignment.assignTo.name
-    assignmentObj.progress = progress[index] + "/" + assignment.total
-    assignmentObj.startPoint = progress[index]
-    assignmentObj.total = assignment.total
-    assignmentObj.status = assignment.status
-    assignmentFormat.push(assignmentObj);
-  })
-  return assignmentFormat
-}
+const formatAssignmentProgress = (assignments, progress) => assignments.reduce((acc, cur, index)=> {
+    const assignment = {
+      id: cur.id,
+      category: cur.label.name,
+      channel: cur.channel.channel_name,
+      assignBy: cur.assignBy.name,
+      assignTo: cur.assignTo.name,
+      progress: progress[index] + "/" + cur.total,
+      startPoint: progress[index],
+      total: cur.total,
+      status: cur.status,
+    }
+    return [...acc, assignment]
+  },[])
+
 
 const formatCategoryLabels = (category, labels) => {
-  let categoryLabels = {}
-  categoryLabels.id = category.id
-  categoryLabels.name = category.name
-  categoryLabels.labels = labels
+  let categoryLabels = {
+    id: category.id,
+    name: category.name,
+    labels: labels
+  }
   return categoryLabels
 }
 
