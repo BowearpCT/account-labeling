@@ -64,7 +64,7 @@ router.delete("/assignment/:id", async (req, res) => {
 router.get("/assignment/filter/", async (req, res) => {
   try {
     const assignments = await findAssignmentFilter(req.query);
-    const progress = await findAssignmentProgress(assignments)
+    const progress = await findAssignmentProgress(assignments);
     const assignmentProgress = await formatAssignmentProgress(assignments, progress)
     res.send(assignmentProgress)
   } catch (error) {
