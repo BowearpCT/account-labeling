@@ -7,7 +7,7 @@
     "build": "backpack build",
     "dev": "backpack",
     "start": "node server.js",
-    "test": "jest --watchAll --coverage"
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
